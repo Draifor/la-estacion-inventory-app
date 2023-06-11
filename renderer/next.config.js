@@ -1,10 +1,10 @@
 module.exports = {
   experimental: {
-      appDir: true,
-    },
+    appDir: true,
+  },
   webpack: (config, { isServer }) => {
     if (!isServer) {
-      config.target = 'electron-renderer';
+      config.target = "electron-renderer";
     }
     // config.externals = {
     //   mysql2: 'mysql2',
@@ -14,7 +14,8 @@ module.exports = {
   env: {
     DB_NAME: "daily_records",
     DB_USERNAME: "root",
-    DB_PASSWORD: "",
+    DB_PASSWORD: "stationDB",
     DB_HOST: "localhost",
-  }
+    DB_PORT: 3306,
+  },
 };

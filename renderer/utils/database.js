@@ -3,7 +3,7 @@ import { User } from "../models/user";
 import { Supplier } from "../models/supplier";
 import { Invoice } from "../models/invoice";
 import { SupplierType } from "../models/supplierType";
-import hashPassword from "./hashPassword";
+import bcrypt from "bcryptjs";
 import mysql from "mysql2";
 
 const sequelize = new Sequelize(
@@ -12,6 +12,7 @@ const sequelize = new Sequelize(
   process.env.DB_PASSWORD,
   {
     host: process.env.DB_HOST,
+    port: process.env.DB_PORT || 3306,
     dialect: "mysql",
     dialectModule: mysql,
     timezone: "-05:00",
@@ -45,12 +46,12 @@ async function createDefaultDBValues() {
   const users = [
     {
       username: "admin",
-      password: hashPassword("admin"),
+      password: await bcrypt.hash("admin", 10),
       role: "admin",
     },
     {
       username: "user",
-      password: hashPassword("user"),
+      password: await bcrypt.hash("user", 10),
       role: "user",
     },
   ];
