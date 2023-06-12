@@ -13,7 +13,7 @@ export default function Navigation() {
 
   return (
     <nav className="bg-gray-700">
-      <div className="container mx-auto px-4">
+      <div className="container mx-auto px-4 w-11/12 max-w-6xl">
         <div className="flex justify-between items-center h-16">
           <div className="flex-shrink-0">
             <Link href="/" className="text-white font-bold text-lg">
@@ -24,10 +24,10 @@ export default function Navigation() {
             <div className="hidden md:flex items-center space-x-8">
               <ul className="flex space-x-4">
                 {menuItems.map((item) => (
-                  <li key={item.link}>
+                  <li key={item.link} className="text-center m-0">
                     <Link
                       href={item.link}
-                      className="text-white hover:text-yellow-500 transition-colors"
+                      className="text-white tex hover:text-yellow-500 transition-colors"
                     >
                       {item.name}
                     </Link>
