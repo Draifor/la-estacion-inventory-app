@@ -1,25 +1,26 @@
 import { useContext } from "react";
-import { InvoicesContext } from "../../hooks/useHadleContext";
-import db from "../../utils/database";
+import { InvoicesContext } from "@/hooks/useHadleContext";
+import db from "@/utils/database";
 import { Op } from "sequelize";
-import Button from "./Button";
-import showAlert from "./showAlert";
+import Button from "@/app/components/Button";
+import showAlert from "@/app/components/showAlert";
 import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 export default function Menu() {
-  // Menu to show invoices that especific date and reports
   const { setInvoices, startDate, setStartDate, endDate, setEndDate } =
     useContext(InvoicesContext);
 
-  const handleStartDateChange = (event) => {
-    const date = new Date(event.target.value);
-    date.setDate(date.getDate() + 1);
+  // Usé una función para manejar el cambio de la fecha inicial
+  const handleStartDateChange = (date) => {
+    // Usé el método setHours para ajustar la hora al inicio del día
     date.setHours(0, 0, 0, 1);
     setStartDate(date);
   };
-  const handleEndDateChange = (event) => {
-    const date = new Date(event.target.value);
-    date.setDate(date.getDate() + 1);
+
+  // Usé una función para manejar el cambio de la fecha final
+  const handleEndDateChange = (date) => {
+    // Usé el método setHours para ajustar la hora al final del día
     date.setHours(23, 59, 59, 999);
     setEndDate(date);
   };
@@ -86,14 +87,13 @@ export default function Menu() {
           >
             Fecha Inicial
           </label>
-          <input
+          <DatePicker
             id="grid-start-date"
-            type="date"
-            className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-1 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-            value={startDate.toISOString().substring(0, 10)}
+            selected={startDate}
             onChange={handleStartDateChange}
+            dateFormat="dd/MM/yyyy"
+            className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-1 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
           />
-          {/* <DatePicker selected={startDate} onChange={date => setStartDate(date)} /> */}
         </div>
         <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
           <label
@@ -102,16 +102,22 @@ export default function Menu() {
           >
             Fecha Final
           </label>
-          <input
+          <DatePicker
             id="grid-end-date"
-            type="date"
-            className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-1 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-            value={endDate.toISOString().substring(0, 10)}
+            selected={endDate}
             onChange={handleEndDateChange}
+            dateFormat="dd/MM/yyyy"
+            className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-1 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
           />
         </div>
-        <div className="flex justify-center w-36 h-10 md:w-1/5 px3">
-          <Button onClick={handleSearch}>Buscar Facturas</Button>
+        <div className="flex justify-center w-36 h-10">
+          <Button
+            type="button"
+            className="btn bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded"
+            onClick={handleSearch}
+          >
+            Buscar
+          </Button>
         </div>
       </div>
     </div>

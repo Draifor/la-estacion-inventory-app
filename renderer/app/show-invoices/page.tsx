@@ -1,17 +1,14 @@
 "use client";
-import React, { useContext } from "react";
-import { InvoicesContext } from "../../hooks/useHadleContext";
+import React, { useEffect, useContext } from "react";
+import { InvoicesContext } from "@/hooks/useHadleContext";
 import Head from "next/head";
-import { useState, useEffect } from "react";
-import db from "../../utils/database";
-import Menu from "../components/Menu";
+import db from "@/utils/database";
+import Menu from "@/app/components/Menu";
 
 export default function Next() {
-  const {invoices, setInvoices} = useContext(InvoicesContext);
+  const { invoices, setInvoices } = useContext(InvoicesContext);
 
   useEffect(() => {
-    // Query the database for the daily invoices
-    console.log("useEffect --> Holi");
     async function fetchInvoices() {
       const result = await db.Invoice.findAll({
         include: [db.Supplier],
@@ -37,7 +34,6 @@ export default function Next() {
     { key: "payment_status", label: "Estado" },
     { key: "remaining_amount", label: "Valor Pendiente" },
   ];
-  console.log("invoices", invoices)
 
   return (
     <React.Fragment>
@@ -45,10 +41,11 @@ export default function Next() {
         <title>Facturas Diarias</title>
       </Head>
       <Menu />
-      {/* TODO Menu to show invoices that especific date and reports */}
-      {/* <div className="container mx-auto px-4 text-center max-w-6xl">
-        <h1 className="text-2xl font-bold mb-4">Facturas Diarias</h1> */}
-        <table className="table-auto w-full text-gray-900">
+      <div className="container max-w-6xl px-4 py-4 mx-auto">
+        {/* <h1 className="text-4xl font-bold text-center text-blue-600">
+          Facturas Diarias
+        </h1> */}
+        <table className="w-full mt-2 text-gray-900 border border-gray-200 shadow-lg">
           <thead>
             <tr>
               {headerTable.map((column) => (
@@ -65,33 +62,36 @@ export default function Next() {
           </thead>
           <tbody>
             {invoices.map((invoice) => (
-              <tr key={invoice.invoice_id}>
-                <td className="px-2 py-1 text-left bg-white border-b border-gray-200">
+              <tr
+                key={invoice.invoice_id}
+                className="bg-white even:bg-gray-100"
+              >
+                <td className="px-2 py-1 text-left border-b border-gray-200">
                   {invoice.Supplier.supplier_name}
                 </td>
-                <td className="px-2 py-1 text-left bg-white border-b border-gray-200">
+                <td className="px-2 py-1 text-left border-b border-gray-200">
                   {invoice.description}
                 </td>
-                <td className="px-2 py-1 bg-white border-b border-gray-200">
+                <td className="px-2 py-1 border-b border-gray-200 text-center">
                   {invoice.invoice_date}
                 </td>
-                <td className="px-2 py-1 bg-white border-b border-gray-200">
+                <td className="px-2 py-1 border-b border-gray-200 text-center">
                   ${formatNumber(invoice.total_amount)}
                 </td>
-                <td className="px-2 py-1 bg-white border-b border-gray-200">
+                <td className="px-2 py-1 border-b border-gray-200 text-center">
                   ${formatNumber(invoice.paid_amount)}
                 </td>
-                <td className="px-2 py-1 bg-white border-b border-gray-200">
+                <td className="px-2 py-1 border-b border-gray-200 text-center">
                   {invoice.payment_status}
                 </td>
-                <td className="px-2 py-1 bg-white border-b border-gray-200">
+                <td className="px-2 py-1 border-b border-gray-200 text-center">
                   ${formatNumber(invoice.remaining_amount)}
                 </td>
               </tr>
             ))}
           </tbody>
         </table>
-      {/* </div> */}
+      </div>
     </React.Fragment>
   );
 }
