@@ -124,71 +124,86 @@ export default function AddSupplier() {
   };
 
   return (
-    <div className="container mx-auto px-4 max-w-xl">
-      <h1 className="text-2xl font-bold mb-4">Registrar Proveedor</h1>
-      <form onSubmit={handleSubmit}>
-        <div className="mb-4">
-          <label htmlFor="supplierName" className="block font-medium mb-2">
-            Nombre
-          </label>
-          <Input
-            type="text"
-            id="supplierName"
-            className="form-input w-full"
-            value={supplierName}
-            onChange={setSupplierName}
-          />
-        </div>
-        <div className="mb-4">
-          <label
-            htmlFor="telephone"
-            className="block font-medium mb-2
-"
-          >
-            Teléfono
-          </label>
-          <Input
-            type="text"
-            id="telephone"
-            className="form-input"
-            value={telephone}
-            onChange={handleTelephoneChange}
-            isHandleChange={true}
-          />
-        </div>
-        <div className="mb-4">
-          <label htmlFor="address" className="block font-medium mb-2">
-            Dirección
-          </label>
-          <Input
-            type="text"
-            id="address"
-            className="form-input w-full"
-            value={address}
-            onChange={setAddress}
-          />
-        </div>
-        <div className="mb-4">
-          <label htmlFor="supplierType" className="block font-medium mb-2">
-            Tipo
-          </label>
-          <Select
-            id="supplierType"
-            className="form-select w-full"
-            value={selectedType.type_name}
-            onChange={handleTypeChange}
-            isHandleChange={true}
-          >
-            {supplierTypeOptions}
-          </Select>
-        </div>
-        <Button
-          type="submit"
-          className="btn bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded"
+    <div className="flex flex-col items-center justify-center min-h-screen">
+      <div className="container max-w-lg px-4 py-8 bg-white shadow-lg rounded-lg">
+        <h1 className="text-4xl font-bold text-center text-blue-600">
+          Registrar Proveedor
+        </h1>
+        <form
+          className="space-y-6 border-t border-b border-gray-200 py-6"
+          onSubmit={handleSubmit}
         >
-          Agregar Proveedor
-        </Button>
-      </form>
+          <div className="flex flex-col">
+            <label
+              htmlFor="supplierName"
+              className="text-lg font-medium text-gray-600"
+            >
+              Nombre
+            </label>
+            <Input
+              type="text"
+              id="supplierName"
+              className="mt-2 p-2 border border-gray-300 rounded-md"
+              value={supplierName}
+              onChange={setSupplierName}
+            />
+          </div>
+          <div className="flex flex-col">
+            <label
+              htmlFor="telephone"
+              className="text-lg font-medium text-gray-600"
+            >
+              Teléfono
+            </label>
+            <Input
+              type="text"
+              id="telephone"
+              className="mt-2 p-2 border border-gray-300 rounded-md"
+              value={telephone}
+              onChange={handleTelephoneChange}
+              isHandleChange={true}
+            />
+          </div>
+          <div className="flex flex-col">
+            <label
+              htmlFor="address"
+              className="text-lg font-medium text-gray-600"
+            >
+              Dirección
+            </label>
+            <Input
+              type="text"
+              id="address"
+              className="mt-2 p-2 border border-gray-300 rounded-md"
+              value={address}
+              onChange={setAddress}
+            />
+          </div>
+          <div className="flex flex-col">
+            <label
+              htmlFor="supplierType"
+              className="text-lg font-medium text-gray-600"
+            >
+              Tipo
+            </label>
+            <Select
+              id="supplierType"
+              className="mt-2 p-2 border border-gray-300 rounded-md"
+              value={selectedType.type_name}
+              onChange={handleTypeChange}
+              isHandleChange={true}
+            >
+              {supplierTypeOptions}
+            </Select>
+          </div>
+          <Button
+            type="submit"
+            className="w-full p-3 bg-green-600 hover:bg-green-700 text-white font-bold shadow-md rounded-md"
+          >
+            Agregar Proveedor
+          </Button>
+        </form>
+      </div>
     </div>
   );
 }

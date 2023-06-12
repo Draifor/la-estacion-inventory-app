@@ -1,13 +1,13 @@
 "use client";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import db from "../../utils/database";
-import Input from "../components/Input";
-import Select from "../components/Select";
+import db from "@/utils/database";
+import Input from "@/app/components/Input";
+import Select from "@/app/components/Select";
 
-import showAlert from "../components/showAlert";
-import Textarea from "../components/Textarea";
-import Button from "../components/Button";
+import showAlert from "@/app/components/showAlert";
+import Textarea from "@/app/components/Textarea";
+import Button from "@/app/components/Button";
 
 const TOTAL_PAYMENT = "Pago total";
 const PARTIAL_PAYMENT = "Pago parcial";
@@ -34,8 +34,6 @@ export default function AddSupplier() {
   const [remainingAmount, setRemainingAmount] = useState("");
 
   useEffect(() => {
-    // Query the database for the supplier types
-    console.log("useEffect --> Holi");
     async function fetchSuppliers() {
       try {
         await db.sequelize.authenticate();
@@ -48,7 +46,6 @@ export default function AddSupplier() {
         const result = await db.Supplier.findAll();
         result.unshift(defaultSupplier);
         setSuppliers(result);
-        console.log(result);
         setSelectedSupplier(result[0]);
       } catch (error) {
         console.error("Unable to fetch suppliers:", error);
