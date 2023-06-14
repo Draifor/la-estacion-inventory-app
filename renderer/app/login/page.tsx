@@ -39,7 +39,7 @@ export default function Login() {
     }
 
     const fetchLogin = async () => {
-      try{
+      try {
         const user = await db.User.findOne({
           where: {
             username,
@@ -75,7 +75,7 @@ export default function Login() {
       <Head>
         <title>Iniciar Sesión</title>
       </Head>
-      <div className="flex flex-col items-center justify-center min-h-screen">
+      <div className="flex flex-col items-center justify-center min-h-[600px]">
         <div className="container max-w-lg px-4 py-8 bg-white shadow-lg rounded-lg">
           <h1 className="text-4xl font-bold text-center text-blue-600">
             Bienvenido a <span className="text-yellow-500">LA ESTACIÓN</span>
@@ -120,21 +120,10 @@ export default function Login() {
                 isHandleChange={true}
               />
             </div>
-            <Button
-              type="submit"
-              className="w-full p-3"
-            >
+            <Button type="submit" className="w-full p-3">
               Iniciar Sesión
             </Button>
           </form>
-          <div className="mt-4 text-center">
-            <Link
-              href="/create-user"
-              className="text-blue-600 hover:text-blue-700 underline"
-            >
-              Agregar Usuario
-            </Link>
-          </div>
         </div>
       </div>
     </>

@@ -21,7 +21,7 @@ const partialPayment = { type_id: 2, type_name: PARTIAL_PAYMENT };
 
 const defaultPaymentTypes = [totalPayment, partialPayment];
 
-export default function AddSupplier() {
+export default function AddInvoice() {
   const router = useRouter();
   const [suppliers, setSuppliers] = useState([]);
   const [selectedSupplier, setSelectedSupplier] = useState(defaultSupplier);
@@ -202,8 +202,8 @@ export default function AddSupplier() {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen">
-      <div className="container max-w-lg px-4 py-8 bg-white shadow-lg rounded-lg">
+    <div className="flex flex-col items-center justify-center my-8 min-h-screen">
+      <div className="container max-w-lg px-4 py-6 bg-white shadow-lg rounded-lg">
         <h1 className="text-4xl font-bold text-center text-blue-600">
           Registrar Factura
         </h1>

@@ -5,22 +5,21 @@ import { Op } from "sequelize";
 import Button from "@/app/components/Button";
 import showAlert from "@/app/components/showAlert";
 import DatePicker from "react-datepicker";
+import { registerLocale } from  "react-datepicker";
+import es from 'date-fns/locale/es';
 import "react-datepicker/dist/react-datepicker.css";
 
 export default function Menu() {
   const { setInvoices, startDate, setStartDate, endDate, setEndDate } =
-    useContext(InvoicesContext);
+  useContext(InvoicesContext);
+  registerLocale('es', es)
 
-  // Usé una función para manejar el cambio de la fecha inicial
   const handleStartDateChange = (date) => {
-    // Usé el método setHours para ajustar la hora al inicio del día
     date.setHours(0, 0, 0, 1);
     setStartDate(date);
   };
 
-  // Usé una función para manejar el cambio de la fecha final
   const handleEndDateChange = (date) => {
-    // Usé el método setHours para ajustar la hora al final del día
     date.setHours(23, 59, 59, 999);
     setEndDate(date);
   };
@@ -64,9 +63,9 @@ export default function Menu() {
         include: [db.Supplier],
         where: {
           invoice_date: {
-            [Op.gte]: startDate,
-            [Op.lte]: endDate,
-            // [Op.between]: [startDate, endDate],
+            // [Op.gte]: startDate,
+            // [Op.lte]: endDate,
+            [Op.between]: [startDate, endDate],
           },
         },
       });
@@ -92,6 +91,7 @@ export default function Menu() {
             selected={startDate}
             onChange={handleStartDateChange}
             dateFormat="dd/MM/yyyy"
+            locale="es"
             className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-1 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
           />
         </div>
@@ -107,6 +107,7 @@ export default function Menu() {
             selected={endDate}
             onChange={handleEndDateChange}
             dateFormat="dd/MM/yyyy"
+            locale="es"
             className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-1 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
           />
         </div>

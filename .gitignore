@@ -3,4 +3,5 @@ node_modules
 .next
 app/background.js
 app/background.js.map
+mysql_data
 dist

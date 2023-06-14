@@ -51,27 +51,15 @@ export default function createUser() {
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    // if (password === confirmPassword) {
-    //   const response = await fetch("http://localhost:3000/api/create-user", {
-    //     method: "POST",
-    //     headers: {
-    //       "Content-Type": "application/json",
-    //     },
-    //     body: JSON.stringify({ userName, password }),
-    //   });
-    //   const data = await response.json();
-    //   console.log(data);
-    //   if (data.success) {
-    //     showAlert("success", data.message);
-    //     setTimeout(() => {
-    //       window.location.href = "/";
-    //     }, 1000);
-    //   } else {
-    //     showAlert("error", data.message);
-    //   }
-    // } else {
-    //   showAlert("error", "Las contraseñas no coinciden");
-    // }
+    if (username === "") {
+      showAlert("error", "El nombre de usuario no puede estar vacío");
+      return;
+    }
+    if (password === "") {
+      showAlert("error", "La contraseña no puede estar vacía");
+      return;
+    }
+
     if (password !== confirmPassword) {
       showAlert("error", "Las contraseñas no coinciden");
       return;
@@ -103,7 +91,7 @@ export default function createUser() {
       <Head>
         <title>Crear Usuario</title>
       </Head>
-      <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
+      <div className="flex flex-col items-center justify-center min-h-screen">
         <div className="container max-w-lg px-4 py-8 bg-white shadow-lg rounded-lg">
           <h1 className="text-4xl font-bold text-center text-blue-600">
             Crear Usuario

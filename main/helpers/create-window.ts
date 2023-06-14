@@ -78,6 +78,7 @@ export default (windowName: string, options: BrowserWindowConstructorOptions): B
   };
   win = new BrowserWindow(browserOptions);
 
+  win.maximize();
   win.on('close', saveState);
 
   console.log("Holiiiii");

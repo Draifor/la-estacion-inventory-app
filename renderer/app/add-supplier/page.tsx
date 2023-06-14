@@ -125,7 +125,7 @@ export default function AddSupplier() {
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen">
-      <div className="container max-w-lg px-4 py-8 bg-white shadow-lg rounded-lg">
+      <div className="container max-w-lg px-4 py-6 bg-white shadow-lg rounded-lg">
         <h1 className="text-4xl font-bold text-center text-blue-600">
           Registrar Proveedor
         </h1>
