@@ -9,6 +9,7 @@ services:
       - MYSQL_ROOT_PASSWORD=stationDB
       - MYSQL_DATABASE=daily_records
     volumes:
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
       - ./mysql_data:/var/lib/mysql
     ports:
       - 3306:3306

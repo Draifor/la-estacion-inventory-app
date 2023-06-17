@@ -26,6 +26,11 @@ export const Invoice = (sequelize) => {
       allowNull: false,
       defaultValue: DataTypes.NOW
     },
+    due_date: {
+      type: DataTypes.DATEONLY,
+      allowNull: false,
+      defaultValue: DataTypes.NOW
+    },
     description: {
       type: DataTypes.STRING,
       allowNull: false,
