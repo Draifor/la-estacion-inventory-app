@@ -28,7 +28,7 @@ CREATE TABLE IF NOT EXISTS suppliers (
   FOREIGN KEY (type_id) REFERENCES supplier_types(id)
 );
 
-CREATE TABLE invoices (
+CREATE TABLE IF NOT EXISTS invoices (
   invoice_id INT PRIMARY KEY AUTO_INCREMENT,
   supplier_id INT NOT NULL,
   invoice_date DATE NOT NULL DEFAULT CURRENT_TIMESTAMP,

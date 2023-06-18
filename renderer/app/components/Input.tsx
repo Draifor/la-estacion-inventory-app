@@ -1,15 +1,54 @@
+import showAlert from "./showAlert";
+
+type InputProps = {
+  type: string;
+  id: string;
+  className?: string;
+  value: string;
+  onChange?: (any) => void;
+  isHandleChange?: boolean;
+  autoFocus?: boolean;
+  required?: boolean;
+  disabled?: boolean;
+  pattern?: string;
+};
+
 export default function Input({
   type,
   id,
   className,
   value,
-  onChange = (any) => {},
-  isHandleChange = false,
-  autoFocus = false,
-  required = false,
-  disabled = false,
+  onChange,
+  isHandleChange,
+  autoFocus,
+  required,
+  disabled,
   pattern = ".*",
-}) {
+}: InputProps) {
+  const isCellphone = id === "cellphone";
+
+  const handleCellphoneChange = (event) => {
+    let value = event.target.value.replace(/[^\d]/g, "");
+    if (value.length > 0) {
+      value =
+        value.substring(0, 3) +
+        (value.length > 3 ? " " + value.substring(3) : "");
+    }
+    if (value.length > 7) {
+      value =
+        value.substring(0, 7) +
+        (value.length > 7 ? " " + value.substring(7) : "");
+    }
+    if (value.length > 12) {
+      showAlert(
+        "warning",
+        "El número de teléfono no puede tener más de 10 dígitos"
+      );
+      return;
+    }
+    onChange(value);
+  };
+
   const handleOnChange = (event) => {
     let value = event.target.value;
     if (type === "number") value = value.replace(/\D/g, "");
@@ -19,7 +58,6 @@ export default function Input({
   return (
     <input
       type={type}
-      // type="text"
       id={id}
       className={
         className +
@@ -27,7 +65,8 @@ export default function Input({
       }
       value={value}
       pattern={pattern}
-      onChange={isHandleChange ? onChange : handleOnChange}
+      onChange={isCellphone ? handleCellphoneChange :
+        isHandleChange ? onChange : handleOnChange}
       autoFocus={autoFocus}
       required={required}
       disabled={disabled}

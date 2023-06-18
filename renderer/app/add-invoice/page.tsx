@@ -1,9 +1,14 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
+import { InvoicesContext } from "@/hooks/useHadleContext";
 import { useRouter } from "next/navigation";
 import db from "@/utils/database";
 import Input from "@/app/components/Input";
 import Select from "@/app/components/Select";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import { registerLocale } from "react-datepicker";
+import es from "date-fns/locale/es";
 
 import showAlert from "@/app/components/showAlert";
 import Textarea from "@/app/components/Textarea";
@@ -19,14 +24,15 @@ const defaultSupplier = db.Supplier.build({
 const totalPayment = { type_id: 1, type_name: TOTAL_PAYMENT };
 const partialPayment = { type_id: 2, type_name: PARTIAL_PAYMENT };
 
-const defaultPaymentTypes = [totalPayment, partialPayment];
+const paymentTypes = [totalPayment, partialPayment];
 
 export default function AddInvoice() {
   const router = useRouter();
-  const [suppliers, setSuppliers] = useState([]);
+  registerLocale("es", es);
+  const { suppliers, setSuppliers } = useContext(InvoicesContext);
   const [selectedSupplier, setSelectedSupplier] = useState(defaultSupplier);
+  const [dueDate, setDueDate] = useState(new Date());
   const [description, setDescription] = useState("");
-  const [paymentTypes, setPaymentTypes] = useState(defaultPaymentTypes);
   const [selectedPaymentType, setSelectedPaymentType] = useState(totalPayment);
   const [isTotalPayment, setIsTotalPayment] = useState(true);
   const [totalAmount, setTotalAmount] = useState("0");
@@ -75,44 +81,42 @@ export default function AddInvoice() {
     return value;
   };
 
-  // Usé una función para manejar el cambio del monto pagado
   const handlePaidAmountChange = (event) => {
     let value = event.target.value;
     value = validateAmount(value);
     setPaidAmount(value);
   };
 
-  // Usé una función para manejar el cambio del tipo de pago
   const handlePaymentTypeChange = (event) => {
     const newSelectedPaymentType = paymentTypes.find(
       (paymentType) => paymentType.type_name === event.target.value
     );
     setSelectedPaymentType(newSelectedPaymentType);
-    // Usé un operador ternario para determinar si el pago es total o parcial
     const isTotal = newSelectedPaymentType.type_id === 1 ? true : false;
-    setIsTotalPayment(isTotal); // Usé una condición para asignar el monto pagado al total si el pago es total
+    setIsTotalPayment(isTotal);
     if (isTotal) {
       setPaidAmount(totalAmount);
     }
   };
 
-  // Usé la función que definí antes para validar y formatear el monto total
   const handleTotalAmountChange = (event) => {
     let value = event.target.value;
     value = validateAmount(value);
-    setTotalAmount(value); // Usé una condición para asignar el monto pagado al total si el pago es total
+    setTotalAmount(value);
     if (isTotalPayment) {
       setPaidAmount(value);
     }
   };
 
-  // Usé una función para manejar el cambio de la descripción
+  const handleDueDateChange = (date) => {
+    setDueDate(date);
+  };
+
   const handleDescriptionChange = (event) => {
     const value = event.target.value;
     setDescription(value);
   };
 
-  // Usé una función para manejar el cambio del proveedor
   const handleSupplierChange = (event) => {
     const newSelectedSupplier = suppliers.find(
       (supplier) => supplier.supplier_name === event.target.value
@@ -132,7 +136,11 @@ export default function AddInvoice() {
       return;
     }
 
-    // Usé la función replace para eliminar los separadores de miles de los montos
+    if (dueDate < new Date()) {
+      showAlert("warning", "La fecha de vencimiento no puede ser menor a hoy");
+      return;
+    }
+
     const totalAmountNumeric = Number(totalAmount.replace(/\D/g, ""));
     const paidAmountNumeric = Number(paidAmount.replace(/\D/g, ""));
     const remainingAmountNumeric = totalAmountNumeric - paidAmountNumeric;
@@ -154,6 +162,8 @@ export default function AddInvoice() {
       await db.Invoice.create({
         supplier_id: selectedSupplier.supplier_id,
         description: description,
+        invoice_date: new Date(),
+        due_date: dueDate,
         total_amount: totalAmountNumeric,
         paid_amount: paidAmountNumeric,
         payment_status: payment_status,
@@ -244,6 +254,22 @@ export default function AddInvoice() {
             >
               {paymentTypeOptions}
             </Select>
+          </div>
+          <div className="flex flex-col md:flex-row md:space-x-8">
+            <label
+              htmlFor="dueDate"
+              className="text-lg font-medium text-gray-600 md:w-3/5"
+            >
+              Fecha Vencimiento
+            </label>
+            <DatePicker
+              id="dueDate"
+              selected={dueDate}
+              onChange={handleDueDateChange}
+              dateFormat="dd/MM/yyyy"
+              locale="es"
+              className="appearance-none text-gray-700 border border-gray-200 rounded py-1 text-center px-4 ml-6 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+            />
           </div>
           <div className="flex flex-col">
             <label

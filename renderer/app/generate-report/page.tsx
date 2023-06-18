@@ -76,7 +76,7 @@ export default function GenerateReport() {
         const result = await db.Invoice.findAll({
           where: {
             invoice_date: {
-              [Op.between]: [startDate, endDate],
+              [Op.between]: [startDate.toISOString().slice(0, 10), endDate.toISOString().slice(0, 10)],
               },
               },
             })

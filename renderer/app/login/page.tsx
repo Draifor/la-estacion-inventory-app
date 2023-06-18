@@ -26,8 +26,6 @@ export default function Login() {
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    console.log("username", username);
-    console.log("password", password);
 
     if (!username) {
       showAlert("warning", "Debe ingresar un nombre de usuario");

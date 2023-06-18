@@ -2,6 +2,7 @@ module.exports = {
   experimental: {
     appDir: true,
   },
+  output: "export",
   webpack: (config, { isServer }) => {
     if (!isServer) {
       config.target = "electron-renderer";

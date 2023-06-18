@@ -4,6 +4,7 @@ import { InvoicesContext } from "@/hooks/useHadleContext";
 import Head from "next/head";
 import db from "@/utils/database";
 import Menu from "@/app/components/Menu";
+import { ipcRenderer } from "electron";
 
 export default function ShowInvoices() {
   const { invoices, setInvoices } = useContext(InvoicesContext);
@@ -29,11 +30,16 @@ export default function ShowInvoices() {
     { key: "supplier_name", label: "Proveedor", className: "text-left" },
     { key: "description", label: "Descripción", className: "text-left" },
     { key: "invoice_date", label: "Fecha Factura" },
+    { key: "due_date", label: "Fecha Vencimiento"},
     { key: "payment_status", label: "Estado" },
     { key: "total_amount", label: "Valor Total" },
     { key: "amount_paid", label: "Valor Pagado" },
     { key: "remaining_amount", label: "Valor Pendiente" },
   ];
+
+  const editInvoice = (invoice_id: number) => {
+    ipcRenderer.send("edit-invoice", {invoice_id});
+  };
 
   return (
     <React.Fragment>
@@ -65,6 +71,7 @@ export default function ShowInvoices() {
               <tr
                 key={invoice.invoice_id}
                 className="bg-white even:bg-gray-100"
+                onClick={() => editInvoice(invoice.invoice_id)}
               >
                 <td className="px-2 py-1 text-left border-b border-gray-200">
                   {invoice.Supplier.supplier_name}
@@ -74,6 +81,9 @@ export default function ShowInvoices() {
                 </td>
                 <td className="px-2 py-1 border-b border-gray-200 text-center">
                   {invoice.invoice_date}
+                </td>
+                <td className="px-2 py-1 border-b border-gray-200 text-center">
+                  {invoice.due_date}
                 </td>
                 <td className="px-2 py-1 border-b border-gray-200 text-center">
                   {invoice.payment_status}
@@ -93,7 +103,7 @@ export default function ShowInvoices() {
           <tfoot>
             <tr className="bg-gray-200">
               <th
-                colSpan={2}
+                colSpan={3}
                 className="px-2 py-1 text-right border-b border-gray-200"
               >
                 Cantidad de Facturas:  <span className="font-normal">{invoices.length}</span>

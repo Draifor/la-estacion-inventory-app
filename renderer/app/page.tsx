@@ -1,21 +1,13 @@
 "use client";
-import { useEffect, useContext } from "react";
+import { useContext } from "react";
 import { InvoicesContext } from "@/hooks/useHadleContext";
 import Head from "next/head";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import ImageIcon from "@/app/components/icons/ImageIcon";
 import PlusIcon from "@/app/components/icons/PlusIcon";
 
 export default function Home() {
   const { user } = useContext(InvoicesContext);
-  const router = useRouter();
-
-  useEffect(() => {
-    if (!user) {
-      router.push("/login");
-    }
-  }, [user]);
 
   const menuItems = [
     { name: "Agregar Proveedor", link: "/add-supplier", icon: <PlusIcon /> },

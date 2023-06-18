@@ -16,7 +16,9 @@ const roles = [
 ];
 
 export default function createUser() {
+  const [name, setName] = useState("");
   const [username, setUsername] = useState("");
+  const [cellphone, setCellphone] = useState("");
   const [role, setRole] = useState(roles[0]);
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -29,6 +31,10 @@ export default function createUser() {
       </option>
     );
   });
+  
+    const handleNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+      setName(event.target.value);
+    };
 
   const handleUserNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setUsername(event.target.value);
@@ -49,14 +55,34 @@ export default function createUser() {
     setConfirmPassword(event.target.value);
   };
 
+  const phoneRegex = /^\d{3} \d{3} \d{4}$/;
+
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    if (name === "") {
+      showAlert("error", "El nombre no puede estar vacío");
+      return;
+    }
+
     if (username === "") {
       showAlert("error", "El nombre de usuario no puede estar vacío");
       return;
     }
+
+    if (cellphone !== "") {
+      if (!phoneRegex.test(cellphone)) {
+        showAlert("error", "Ingresa un número de celular válido");
+        return;
+      }
+    }
+
     if (password === "") {
       showAlert("error", "La contraseña no puede estar vacía");
+      return;
+    }
+
+    if (password.length < 6) {
+      showAlert("error", "La contraseña debe tener al menos 6 caracteres");
       return;
     }
 
@@ -68,18 +94,17 @@ export default function createUser() {
     const saltRounds = 10;
 
     const hashedPassword = await bcrypt.hash(password, saltRounds);
-    console.log("Contraseña cifrada:", hashedPassword);
-    console.log("role", role.value);
-    console.log("userName", username);
     try {
       await db.User.create({
         username: username,
+        name: name,
+        cellphone: cellphone,
         password: hashedPassword,
         role: role.value,
       });
       showAlert("success", "Usuario creado exitosamente");
       setTimeout(() => {
-        router.push("/");
+        router.push("/show-users");
       }, 1000);
     } catch (error) {
       showAlert("error", error.message);
@@ -101,6 +126,19 @@ export default function createUser() {
             onSubmit={handleSubmit}
           >
             <div className="flex flex-col">
+              <label htmlFor="name" className="text-lg font-medium text-gray-600">
+                Nombre
+              </label>
+              <Input
+                type="text"
+                id="name"
+                className="mt-2 p-2 border border-gray-300 rounded-md"
+                value={name}
+                onChange={handleNameChange}
+                isHandleChange={true}
+              />
+            </div>
+            <div className="flex flex-col">
               <label
                 htmlFor="userName"
                 className="text-lg font-medium text-gray-600"
@@ -113,6 +151,22 @@ export default function createUser() {
                 className="mt-2 p-2 border border-gray-300 rounded-md"
                 value={username}
                 onChange={handleUserNameChange}
+                isHandleChange={true}
+              />
+            </div>
+            <div className="flex flex-col">
+              <label
+                htmlFor="cellphone"
+                className="text-lg font-medium text-gray-600"
+              >
+                Celular
+              </label>
+              <Input
+                type="text"
+                id="cellphone"
+                className="mt-2 p-2 border border-gray-300 rounded-md"
+                value={cellphone}
+                onChange={setCellphone}
                 isHandleChange={true}
               />
             </div>

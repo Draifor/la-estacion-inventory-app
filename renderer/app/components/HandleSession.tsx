@@ -7,7 +7,6 @@ import showAlert from "./showAlert";
 export default function HandleSession() {
   const router = useRouter();
   const { user, setUser } = useContext(InvoicesContext);
-  console.log("user", user);
 
   const handleLogout = () => {
     setUser(null);

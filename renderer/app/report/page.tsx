@@ -1,5 +1,5 @@
 "use client"
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import db from "@/utils/database";
 import { Op } from "sequelize";
 import Link from "next/link";
@@ -8,6 +8,14 @@ export default function report({ searchParams }) {
   const { startDate, endDate, reportType } = searchParams;
   const [invoices, setInvoices] = useState([]);
   
+  useEffect(() => {
+    console.log("startDate: ", startDate);
+    console.log("endDate: ", endDate);
+    console.log("reportType: ", reportType);
+    
+    fetchInvoices();
+  }, []);
+
   const fetchInvoices = async () => {
     const result = await db.Invoice.findAll({
       include: [db.Supplier],

@@ -77,8 +77,8 @@ export default function Menu() {
 
   return (
     <div className="container mx-auto px-4 text-center max-w-6xl">
-      <h1 className="text-2xl font-bold mb-4">Buscar Facturas por Fecha</h1>
-      <div className="flex flex-wrap items-end justify-center gap-2 -mx-3 mb-6">
+      {/* <h1 className="text-2xl font-bold mb-4">Buscar Facturas por Fecha</h1> */}
+      <div className="flex flex-wrap items-end justify-center gap-2 -mx-3 m-6">
         <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
           <label
             className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"

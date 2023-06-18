@@ -1,14 +1,37 @@
 import { useContext } from "react";
 import { InvoicesContext } from "@/hooks/useHadleContext";
 import Link from "next/link";
+import DropdownMenu from "@/app/components/DropdownMenu";
 import HandleSession from "@/app/components/HandleSession";
 
 export default function Navigation() {
   const { user } = useContext(InvoicesContext);
-  const menuItems = [
-    { name: "Agregar Proveedor", link: "/add-supplier" },
-    { name: "Agregar Factura", link: "/add-invoice" },
-    { name: "Mostrar Facturas", link: "/show-invoices" },
+
+  const adminMenuItems = [
+    { name: "Generar Reporte", link: "/generate-report" },
+    { name: "Agregar Usuario", link: "/create-user" },
+    { name: "Mostrar Usuarios", link: "/show-users" },
+  ];
+
+  const menuDropdownItems = [
+    {
+      firstLabel: "Proveedores",
+      items: [{ label: "Agregar Proveedor", link: "/add-supplier" }],
+    },
+    {
+      firstLabel: "Facturas",
+      items: [
+        { label: "Agregar Factura", link: "/add-invoice" },
+        { label: "Mostrar Facturas", link: "/show-invoices" },
+      ],
+    },
+    {
+      firstLabel: "Usuarios",
+      items: [
+        { label: "Agregar Usuario", link: "/create-user" },
+        { label: "Mostrar Usuarios", link: "/show-users" },
+      ],
+    },
   ];
 
   return (
@@ -23,16 +46,26 @@ export default function Navigation() {
           {user && (
             <div className="hidden md:flex items-center space-x-8">
               <ul className="flex space-x-4">
-                {menuItems.map((item) => (
-                  <li key={item.link} className="text-center m-0">
-                    <Link
-                      href={item.link}
+                {menuDropdownItems.map((item) => (
+                  <li key={item.firstLabel} className="text-center m-0">
+                    <DropdownMenu
+                      title={item.firstLabel}
+                      items={item.items}
                       className="text-white tex hover:text-yellow-500 transition-colors"
-                    >
-                      {item.name}
-                    </Link>
+                    />
                   </li>
                 ))}
+                {user.role === "admin" &&
+                  adminMenuItems.map((item) => (
+                    <li key={item.link} className="text-center m-0">
+                      <Link
+                        href={item.link}
+                        className="text-white tex hover:text-yellow-500 transition-colors"
+                      >
+                        {item.name}
+                      </Link>
+                    </li>
+                  ))}
               </ul>
               <HandleSession />
             </div>

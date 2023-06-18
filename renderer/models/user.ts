@@ -4,6 +4,8 @@ export const User = (sequelize) => {
   class UserModel extends Model {
     declare user_id: number;
     declare username: string;
+    declare name: string;
+    declare cellphone: string;
     declare password: string;
     declare role: string;
   }
@@ -19,6 +21,14 @@ UserModel.init({
     type: DataTypes.STRING,
     allowNull: false,
     unique: true
+  },
+  name: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
+  cellphone: {
+    type: DataTypes.STRING,
+    allowNull: true,
   },
   password: {
     type: DataTypes.STRING,
