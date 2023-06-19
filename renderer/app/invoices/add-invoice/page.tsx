@@ -176,9 +176,9 @@ export default function AddInvoice() {
       showAlert("success", "Factura agregada correctamente!");
       resetForm();
 
-      // setTimeout(() => {
-      router.push("/show-invoices");
-      // }, 1000);
+      setTimeout(() => {
+        ipcRenderer.send("close-modal", { reload: true });
+      }, 1000);
     } catch (error) {
       showAlert("error", "No se pudo agregar la factura");
       console.error("Unable to add invoice:", error);
