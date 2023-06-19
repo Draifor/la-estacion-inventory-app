@@ -44,6 +44,16 @@ export default function Navigation() {
       ],
     },
     {
+      firstLabel: "Ventas",
+      items: [
+        { label: "Agregar Venta", onClick: openModalFunction("sales/add-sale") },
+        {
+          label: "Mostrar Ventas",
+          onClick: () => router.push("/sales/show-sales"),
+        },
+      ],
+    },
+    {
       firstLabel: "Usuarios",
       isAdmin: true,
       items: [

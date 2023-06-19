@@ -47,15 +47,24 @@ export default function GenerateReport() {
       return false;
     }
     if (!startDate || !endDate) {
-      showAlert("error", "Debe seleccionar una fecha inicial y una fecha final");
+      showAlert(
+        "error",
+        "Debe seleccionar una fecha inicial y una fecha final"
+      );
       return false;
     }
     if (startDate > new Date()) {
-      showAlert("error", "La fecha inicial no puede ser mayor a la fecha actual");
+      showAlert(
+        "error",
+        "La fecha inicial no puede ser mayor a la fecha actual"
+      );
       return false;
     }
     if (startDate > endDate) {
-      showAlert("error", "La fecha inicial no puede ser mayor a la fecha final");
+      showAlert(
+        "error",
+        "La fecha inicial no puede ser mayor a la fecha final"
+      );
       return false;
     }
     return true;
@@ -67,7 +76,7 @@ export default function GenerateReport() {
     if (!validateInputs()) {
       return;
     }
-    
+
     console.log("startDate", startDate);
     console.log("endDate", endDate);
     console.log(startDate.toISOString().slice(0, 10));
@@ -76,98 +85,101 @@ export default function GenerateReport() {
         const result = await db.Invoice.findAll({
           where: {
             invoice_date: {
-              [Op.between]: [startDate.toISOString().slice(0, 10), endDate.toISOString().slice(0, 10)],
-              },
-              },
-            })
-            console.log("result", result);
-            if (result.length === 0) {
-              showAlert(
-                "warning",
-                "No se encontraron facturas para la fecha seleccionada"
-                );
-                return;
-              }
-              router.push(
-                `/report?startDate=${startDate.toISOString().slice(0, 10)}&endDate=${endDate.toISOString().slice(0, 10)}&reportType=${reportType.value}`
-                );
-              } catch (error) {
-                console.error("Unable to connect to the database:", error);
-              }
-            };
-            fetchReport();
-          };
+              [Op.between]: [
+                startDate.toISOString().slice(0, 10),
+                endDate.toISOString().slice(0, 10),
+              ],
+            },
+          },
+        });
+        console.log("result", result);
+        if (result.length === 0) {
+          showAlert(
+            "warning",
+            "No se encontraron facturas para la fecha seleccionada"
+          );
+          return;
+        }
+        router.push(
+          `/report?startDate=${startDate
+            .toISOString()
+            .slice(0, 10)}&endDate=${endDate
+            .toISOString()
+            .slice(0, 10)}&reportType=${reportType.value}`
+        );
+      } catch (error) {
+        console.error("Unable to connect to the database:", error);
+      }
+    };
+    fetchReport();
+  };
 
- return (
-    <div className="flex flex-col items-center justify-center min-h-screen">
-      <div className="container max-w-lg px-4 py-8 bg-white shadow-lg rounded-lg">
-        <h1 className="text-4xl font-bold text-center text-blue-600">
-          Generar Reporte
-        </h1>
-        <form
-          className="space-y-6 border-t border-b border-gray-200 py-6"
-          onSubmit={handleSubmit}
+  return (
+    <form
+      className="space-y-6 border-t border-b border-gray-200 py-6"
+      onSubmit={handleSubmit}
+    >
+      <div className="flex flex-col items-center md:flex-row md:space-x-8">
+        <label
+          htmlFor="reportType"
+          className="text-lg font-medium text-gray-600 md:w-2/5 md:pl-9"
         >
-          <div className="flex flex-col items-center md:flex-row md:space-x-8">
-            <label
-              htmlFor="reportType"
-              className="text-lg font-medium text-gray-600 md:w-2/5 md:pl-9"
-            >
-              Tipo de Reporte
-            </label>
-            <Select
-              id={"reportType"}
-              className="p-2 border border-gray-300 rounded-md md:ml-4"
-              value={reportType.value}
-              onChange={handleReportTypeChange}
-              isHandleChange={true}
-            >
-              {reportTypeOptions.map((reportType) => {
-                return (
-                  <option key={reportType.value} value={reportType.value}>
-                    {reportType.label}
-                  </option>
-                );
-              })}
-            </Select>
-          </div>
-          <div className="flex flex-col items-center md:flex-row md:space-x-8">
-            <label
-              htmlFor="startDate"
-              className="text-lg font-medium text-gray-600 md:w-4/5 md:pl-10"
-            >
-              Fecha Inicial
-            </label>
-            <DatePicker
-              id="startDate"
-              selected={startDate}
-              onChange={handleStartDateChange}
-              dateFormat="dd/MM/yyyy"
-              locale="es"
-              className="appearance-none text-gray-700 border border-gray-200 rounded py-1 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-            />
-          </div>
-          <div className="flex flex-col items-center md:flex-row md:space-x-8">
-            <label
-              htmlFor="endDate"
-              className="text-lg font-medium text-gray-600 md:w-4/5 md:pl-10"
-            >
-              Fecha Final
-            </label>
-            <DatePicker
-              id="endDate"
-              selected={endDate}
-              onChange={handleEndDateChange}
-              dateFormat="dd/MM/yyyy"
-              locale="es"
-              className="appearance-none text-gray-700 border border-gray-200 rounded py-1 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-            />
-          </div>
-          <Button type="submit" className="w-full p-3 bg-green-600 hover:bg-green-700 text-white font-bold shadow-md rounded-md">
-            Generar Reporte
-          </Button>
-        </form>
+          Tipo de Reporte
+        </label>
+        <Select
+          id={"reportType"}
+          className="p-2 border border-gray-300 rounded-md md:ml-4"
+          value={reportType.value}
+          onChange={handleReportTypeChange}
+          isHandleChange={true}
+        >
+          {reportTypeOptions.map((reportType) => {
+            return (
+              <option key={reportType.value} value={reportType.value}>
+                {reportType.label}
+              </option>
+            );
+          })}
+        </Select>
       </div>
-    </div>
+      <div className="flex flex-col items-center md:flex-row md:space-x-8">
+        <label
+          htmlFor="startDate"
+          className="text-lg font-medium text-gray-600 md:w-4/5 md:pl-10"
+        >
+          Fecha Inicial
+        </label>
+        <DatePicker
+          id="startDate"
+          selected={startDate}
+          onChange={handleStartDateChange}
+          dateFormat="dd/MM/yyyy"
+          locale="es"
+          className="appearance-none text-gray-700 border border-gray-200 rounded py-1 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+        />
+      </div>
+      <div className="flex flex-col items-center md:flex-row md:space-x-8">
+        <label
+          htmlFor="endDate"
+          className="text-lg font-medium text-gray-600 md:w-4/5 md:pl-10"
+        >
+          Fecha Final
+        </label>
+        <DatePicker
+          id="endDate"
+          selected={endDate}
+          onChange={handleEndDateChange}
+          dateFormat="dd/MM/yyyy"
+          locale="es"
+          className="appearance-none text-gray-700 border border-gray-200 rounded py-1 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+        />
+      </div>
+      <Button
+        type="submit"
+        className="w-full p-3 bg-green-600 hover:bg-green-700 text-white font-bold shadow-md rounded-md"
+      >
+        Generar Reporte
+      </Button>
+    </form>
   );
 }

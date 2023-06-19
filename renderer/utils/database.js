@@ -3,6 +3,11 @@ import { User } from "../models/user";
 import { Supplier } from "../models/supplier";
 import { Invoice } from "../models/invoice";
 import { SupplierType } from "../models/supplierType";
+import { Dough } from "@/models/dough";
+import { DoughProduct } from "@/models/doughProduct";
+import { Ingredient } from "@/models/ingredient";
+import { IngredientDough } from "@/models/IngredientDough";
+import { Product } from "@/models/product";
 import bcrypt from "bcryptjs";
 import mysql from "mysql2";
 
@@ -29,11 +34,26 @@ db.User = User(sequelize);
 db.Supplier = Supplier(sequelize);
 db.Invoice = Invoice(sequelize);
 db.SupplierType = SupplierType(sequelize);
+db.Dough = Dough(sequelize);
+db.DoughProduct = DoughProduct(sequelize);
+db.Ingredient = Ingredient(sequelize);
+db.IngredientDough = IngredientDough(sequelize);
+db.Product = Product(sequelize);
 
 // Define the associations between the models
 db.Supplier.hasMany(db.Invoice, { foreignKey: "supplier_id" });
 db.Invoice.belongsTo(db.Supplier, { foreignKey: "supplier_id" });
 db.SupplierType.hasMany(db.Supplier, { foreignKey: "type_id" });
+
+db.Ingredient.hasMany(db.IngredientDough, { foreignKey: "ingredient_id" });
+db.Dough.hasMany(db.IngredientDough, { foreignKey: "dough_id" });
+db.IngredientDough.belongsTo(db.Ingredient, { foreignKey: "ingredient_id" });
+db.IngredientDough.belongsTo(db.Dough, { foreignKey: "dough_id" });
+
+db.Dough.hasMany(db.DoughProduct, { foreignKey: "dough_id" });
+db.Product.hasMany(db.DoughProduct, { foreignKey: "product_id" });
+db.DoughProduct.belongsTo(db.Dough, { foreignKey: "dough_id" });
+db.DoughProduct.belongsTo(db.Product, { foreignKey: "product_id" });
 
 async function createDefaultDBValues() {
   try {
