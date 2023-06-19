@@ -9,12 +9,14 @@ type DropdownMenuProps = {
     onClick: () => void;
   }[];
   className?: string;
+  isVisible?: boolean;
 };
 
 export default function DropdownMenu({
   title,
   items,
   className,
+  isVisible = true,
 }: DropdownMenuProps) {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -25,6 +27,8 @@ export default function DropdownMenu({
   const handleMouseLeave = () => {
     setIsOpen(false);
   };
+
+  if (!isVisible) return null;
 
   return (
     <div

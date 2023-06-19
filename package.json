@@ -11,7 +11,9 @@
     "postinstall": "electron-builder install-app-deps"
   },
   "dependencies": {
+    "@babel/runtime-corejs3": "^7.22.5",
     "bcryptjs": "2.4.3",
+    "date-fns": "^2.30.0",
     "electron-serve": "1.1.0",
     "electron-store": "8.1.0",
     "mysql2": "3.2.3",
@@ -25,7 +27,7 @@
     "@types/react": "18.0.26",
     "autoprefixer": "10.4.7",
     "electron": "21.3.3",
-    "electron-builder": "23.6.0",
+    "electron-builder": "24.4.0",
     "eslint-config-next": "13.4.0",
     "next": "13.4.0",
     "nextron": "8.5.0",

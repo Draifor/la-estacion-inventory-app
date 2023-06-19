@@ -3,9 +3,11 @@ import Link from "next/link";
 import DropdownMenu from "@/app/components/DropdownMenu";
 import HandleSession from "@/app/components/HandleSession";
 import { ipcRenderer } from "electron";
+import { useRouter } from "next/navigation";
 
 export default function Navigation() {
   const { user } = useSession();
+  const router = useRouter();
 
   const adminMenuItems = [
     { name: "Generar Reporte", link: "/generate-report" },
@@ -38,15 +40,19 @@ export default function Navigation() {
         { label: "Agregar Factura", onClick: openModalFunction("add-invoice") },
         {
           label: "Mostrar Facturas",
-          onClick: openModalFunction("show-invoices"),
+          onClick: () => router.push("/show-invoices"),
         },
       ],
     },
     {
       firstLabel: "Usuarios",
+      isAdmin: true,
       items: [
         { label: "Agregar Usuario", onClick: openModalFunction("create-user") },
-        { label: "Mostrar Usuarios", onClick: openModalFunction("show-users") },
+        {
+          label: "Mostrar Usuarios",
+          onClick: () => router.push("/show-users"),
+        },
       ],
     },
   ];
@@ -70,6 +76,7 @@ export default function Navigation() {
                       title={item.firstLabel}
                       items={item.items}
                       className="text-white tex hover:text-yellow-500 transition-colors"
+                      isVisible={item.isAdmin ? user?.role === "admin" : true}
                     />
                   </li>
                 ))}
@@ -85,8 +92,8 @@ export default function Navigation() {
                     </li>
                   ))}
               </ul>
-              <HandleSession />
             </div>
+              <HandleSession />
           </div>
         </div>
       </nav>
