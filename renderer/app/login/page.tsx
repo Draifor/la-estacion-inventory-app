@@ -1,8 +1,7 @@
 "use client";
-import { useState, useContext } from "react";
-import { InvoicesContext } from "@/hooks/useHadleContext";
+import { useEffect, useState } from "react";
+import useSession from "@/hooks/useSession";
 import Head from "next/head";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import Input from "@/app/components/Input";
 import Button from "@/app/components/Button";
@@ -11,7 +10,7 @@ import showAlert from "@/app/components/showAlert";
 import bcrypt from "bcryptjs";
 
 export default function Login() {
-  const { setUser } = useContext(InvoicesContext);
+  const { user, loading, login } = useSession();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const router = useRouter();
@@ -23,6 +22,14 @@ export default function Login() {
   const handlePasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setPassword(event.target.value);
   };
+
+  useEffect(() => {
+    console.log("user", user);
+    if (loading) return;
+    if (user) {
+      router.push("/");
+    }
+  }, [user, loading]);
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -49,11 +56,11 @@ export default function Login() {
           const isMatch = await bcrypt.compare(password, user.password);
           console.log("isMatch", isMatch);
           if (isMatch) {
-            setUser({ username: user.username, role: user.role });
-            setTimeout(() => {
-              showAlert("success", `Bienvenido ${user.username}`);
+            login({ username: user.username, role: user.role });
+            // setTimeout(() => {
+            showAlert("success", `Bienvenido ${user.username}`);
               router.push("/");
-            }, 1000);
+            // }, 1000);
           } else {
             showAlert("error", "Contraseña incorrecta");
           }
@@ -67,6 +74,11 @@ export default function Login() {
     };
     fetchLogin();
   };
+
+  // Mostrar un indicador de carga mientras se está obteniendo la sesión del usuario
+  if (loading) {
+    return <div className="text-4xl font-bold text-center text-blue-600">Cargando...</div>;
+  }
 
   return (
     <>

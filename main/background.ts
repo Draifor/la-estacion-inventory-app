@@ -1,4 +1,4 @@
-import { BrowserWindow, app, ipcMain } from "electron";
+import { BrowserWindow, app, ipcMain, session } from "electron";
 import serve from "electron-serve";
 import { createWindow } from "./helpers";
 
@@ -20,65 +20,79 @@ if (isProd) {
 
   mainWindow.maximize();
 
-  if (isProd) {
-    await mainWindow.loadURL("app://./");
-  } else {
-    const port = process.argv[2];
-    await mainWindow.loadURL(`http://localhost:${port}/`);
+  const port = !isProd ? process.argv[2] : "";
+  const mainURL = isProd ? "app://./" : `http://localhost:${port}/`;
+
+  await mainWindow.loadURL(mainURL);
+
+  if (!isProd) {
     mainWindow.webContents.openDevTools();
   }
 
-  ipcMain.on("open-file-dialog", (event, arg) => {
-    console.log(arg);
+  const defaultSession = session.defaultSession;
+
+  ipcMain.on("get-session", async (event, arg) => {
+    try {
+      const sessionCookies = await defaultSession.cookies.get({
+        url: mainURL,
+        name: "session",
+      });
+      const session = sessionCookies[0]
+        ? JSON.parse(sessionCookies[0].value)
+        : null;
+      event.reply("session-updated", { user: session ? session.user : null });
+    } catch (error) {
+      console.log(error);
+    }
   });
 
-  ipcMain.on("save-file-dialog", (event, arg) => {
-    console.log(arg);
+  ipcMain.on("login", async (event, { username, role }) => {
+    try {
+      const session = {
+        user: {
+          username,
+          role,
+        },
+      };
+      await defaultSession.cookies.set({
+        url: mainURL,
+        name: "session",
+        value: JSON.stringify(session),
+      });
+      event.reply("session-updated", { user: session.user });
+    } catch (error) {
+      console.log(error);
+    }
   });
 
-  ipcMain.on("save-file", (event, arg) => {
-    console.log(arg);
+  ipcMain.on("logout", async (event) => {
+    try {
+      await defaultSession.cookies.remove(mainURL, "session");
+      event.reply("session-updated", { user: null });
+    } catch (error) {
+      console.log(error);
+    }
   });
 
-  ipcMain.on("open-file", (event, arg) => {
-    console.log(arg);
-  });
-
-  ipcMain.on("save-file-as", (event, arg) => {
-    console.log(arg);
-  });
-
-  ipcMain.on("edit-invoice", (event, {invoice_id}) => {
-    const newWindow = createWindow("edit-invoice", {
+  ipcMain.on("open-modal", (event, { name, url }) => {
+    const newWindow = createWindow(name, {
       width: 800,
       height: 700,
       parent: mainWindow,
       modal: true,
     });
 
-    newWindow.webContents.openDevTools();
-
     (async () => {
-      console.log("invoice_id desde el main " + invoice_id)
-      if (isProd) {
-        await newWindow.loadURL(
-          `app://./edit-invoice?id=${invoice_id}`
-        );
-      } else {
-        const port = process.argv[2];
-        await newWindow.loadURL(
-          `http://localhost:${port}/edit-invoice?id=${invoice_id}`
-        );
-      }
+      await newWindow.loadURL(`${mainURL + url}`);
     })();
-    console.log(invoice_id);
+    if (!isProd) newWindow.webContents.openDevTools();
   });
 
-  ipcMain.on("close-edit-invoice", (event, arg) => {
+  ipcMain.on("close-modal", (event, arg) => {
     const win = BrowserWindow.getFocusedWindow();
     win.close();
-  }
-  );
+    if (arg?.reload) mainWindow.webContents.reload();
+  });
 })();
 
 app.on("window-all-closed", () => {

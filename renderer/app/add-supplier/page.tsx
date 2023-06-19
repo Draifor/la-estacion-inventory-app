@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import db from "@/utils/database";
 import Input from "@/app/components/Input";
 import Select from "@/app/components/Select";
+import { ipcRenderer } from "electron";
 
 import showAlert from "@/app/components/showAlert";
 import Button from "@/app/components/Button";
@@ -49,28 +50,6 @@ export default function AddSupplier() {
 
   const phoneRegex = /^\d{3} \d{3} \d{4}$/;
 
-  const handleTelephoneChange = (event) => {
-    let value = event.target.value.replace(/[^\d]/g, "");
-    if (value.length > 0) {
-      value =
-        value.substring(0, 3) +
-        (value.length > 3 ? " " + value.substring(3) : "");
-    }
-    if (value.length > 7) {
-      value =
-        value.substring(0, 7) +
-        (value.length > 7 ? " " + value.substring(7) : "");
-    }
-    if (value.length > 12) {
-      showAlert(
-        "warning",
-        "El número de teléfono no puede tener más de 10 dígitos"
-      );
-      return;
-    }
-    setTelephone(value);
-  };
-
   async function handleSubmit(event) {
     event.preventDefault();
     if (supplierName.trim() === "") {
@@ -102,7 +81,7 @@ export default function AddSupplier() {
     showAlert("success", "Proveedor agregado correctamente!");
     resetForm();
     setTimeout(() => {
-      router.push("/");
+      ipcRenderer.send("close-modal", { reload: true });
     }, 1000);
   }
 
@@ -160,7 +139,7 @@ export default function AddSupplier() {
               id="telephone"
               className="mt-2 p-2 border border-gray-300 rounded-md"
               value={telephone}
-              onChange={handleTelephoneChange}
+              onChange={setTelephone}
               isHandleChange={true}
             />
           </div>
@@ -196,12 +175,22 @@ export default function AddSupplier() {
               {supplierTypeOptions}
             </Select>
           </div>
-          <Button
-            type="submit"
-            className="w-full p-3 bg-green-600 hover:bg-green-700 text-white font-bold shadow-md rounded-md"
-          >
-            Agregar Proveedor
-          </Button>
+          <div className="flex flex-col md:flex-row gap-3">
+            <Button
+              type="submit"
+              className="w-full p-3 bg-green-600 hover:bg-green-700 text-white font-bold shadow-md rounded-md"
+            >
+              Agregar Proveedor
+            </Button>
+            <Button
+              className="w-full p-3 bg-green-600 hover:bg-green-700 text-white font-bold shadow-md rounded-md"
+              onClick={() => {
+                ipcRenderer.send("close-modal");
+              }}
+            >
+              Cancelar
+            </Button>
+          </div>
         </form>
       </div>
     </div>

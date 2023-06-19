@@ -136,7 +136,10 @@ export default function AddInvoice() {
       return;
     }
 
-    if (dueDate < new Date()) {
+    const today = new Date();
+    today.setHours(0, 0, 0, 1);
+
+    if (dueDate < today) {
       showAlert("warning", "La fecha de vencimiento no puede ser menor a hoy");
       return;
     }

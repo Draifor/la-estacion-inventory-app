@@ -5,7 +5,6 @@ import { useRouter } from "next/navigation";
 import Input from "../components/Input";
 import Button from "../components/Button";
 import showAlert from "../components/showAlert";
-import hashPassword from "@/utils/hashPassword";
 import db from "@/utils/database";
 import Select from "../components/Select";
 import bcrypt from "bcryptjs";

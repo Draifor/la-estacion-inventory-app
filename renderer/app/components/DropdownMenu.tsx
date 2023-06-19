@@ -1,12 +1,12 @@
 import { useState } from "react";
 import DownArrow from "@/app/components/icons/DownArrow";
-import Link from "next/link";
+import Button from "./Button";
 
 type DropdownMenuProps = {
   title: string;
   items: {
     label: string;
-    link: string;
+    onClick: () => void;
   }[];
   className?: string;
 };
@@ -37,15 +37,16 @@ export default function DropdownMenu({
         <DownArrow />
       </div>
       {isOpen && (
-        <div className="absolute z-10 py-2 w-40 bg-white rounded-md shadow-lg left-1/2 transform -translate-x-1/2">
+        <div className="absolute z-10 flex flex-col justify-center py-2 w-40 bg-white rounded-md shadow-lg left-1/2 transform -translate-x-1/2">
           {items.map((item, index) => (
-            <Link
+            <Button
               key={index}
-              href={item.link}
+              onClick={item.onClick}
               className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+              baseStyle="none"
             >
               {item.label}
-            </Link>
+            </Button>
           ))}
         </div>
       )}

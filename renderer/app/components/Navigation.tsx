@@ -1,11 +1,11 @@
-import { useContext } from "react";
-import { InvoicesContext } from "@/hooks/useHadleContext";
+import useSession from "@/hooks/useSession";
 import Link from "next/link";
 import DropdownMenu from "@/app/components/DropdownMenu";
 import HandleSession from "@/app/components/HandleSession";
+import { ipcRenderer } from "electron";
 
 export default function Navigation() {
-  const { user } = useContext(InvoicesContext);
+  const { user } = useSession();
 
   const adminMenuItems = [
     { name: "Generar Reporte", link: "/generate-report" },
@@ -13,37 +13,55 @@ export default function Navigation() {
     { name: "Mostrar Usuarios", link: "/show-users" },
   ];
 
+  const openModalFunction = (link) => {
+    return () => {
+      ipcRenderer.send("open-modal", {
+        name: link,
+        url: link,
+      });
+    };
+  };
+
   const menuDropdownItems = [
     {
       firstLabel: "Proveedores",
-      items: [{ label: "Agregar Proveedor", link: "/add-supplier" }],
+      items: [
+        {
+          label: "Agregar Proveedor",
+          onClick: openModalFunction("add-supplier"),
+        },
+      ],
     },
     {
       firstLabel: "Facturas",
       items: [
-        { label: "Agregar Factura", link: "/add-invoice" },
-        { label: "Mostrar Facturas", link: "/show-invoices" },
+        { label: "Agregar Factura", onClick: openModalFunction("add-invoice") },
+        {
+          label: "Mostrar Facturas",
+          onClick: openModalFunction("show-invoices"),
+        },
       ],
     },
     {
       firstLabel: "Usuarios",
       items: [
-        { label: "Agregar Usuario", link: "/create-user" },
-        { label: "Mostrar Usuarios", link: "/show-users" },
+        { label: "Agregar Usuario", onClick: openModalFunction("create-user") },
+        { label: "Mostrar Usuarios", onClick: openModalFunction("show-users") },
       ],
     },
   ];
 
   return (
-    <nav className="bg-gray-700">
-      <div className="container mx-auto px-4 w-11/12 max-w-6xl">
-        <div className="flex justify-between items-center h-16">
-          <div className="flex-shrink-0">
-            <Link href="/" className="text-white font-bold text-lg">
-              LA ESTACIÓN
-            </Link>
-          </div>
-          {user && (
+    <div>
+      <nav className="bg-gray-700">
+        <div className="container mx-auto px-4 w-11/12 max-w-6xl">
+          <div className="flex justify-between items-center h-16">
+            <div className="flex-shrink-0">
+              <Link href="/" className="text-white font-bold text-lg">
+                LA ESTACIÓN
+              </Link>
+            </div>
+
             <div className="hidden md:flex items-center space-x-8">
               <ul className="flex space-x-4">
                 {menuDropdownItems.map((item) => (
@@ -55,7 +73,7 @@ export default function Navigation() {
                     />
                   </li>
                 ))}
-                {user.role === "admin" &&
+                {user?.role === "admin" &&
                   adminMenuItems.map((item) => (
                     <li key={item.link} className="text-center m-0">
                       <Link
@@ -69,9 +87,9 @@ export default function Navigation() {
               </ul>
               <HandleSession />
             </div>
-          )}
+          </div>
         </div>
-      </div>
-    </nav>
+      </nav>
+    </div>
   );
 }

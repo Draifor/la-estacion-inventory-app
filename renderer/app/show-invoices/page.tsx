@@ -5,6 +5,7 @@ import Head from "next/head";
 import db from "@/utils/database";
 import Menu from "@/app/components/Menu";
 import { ipcRenderer } from "electron";
+import Navigation from "../components/Navigation";
 
 export default function ShowInvoices() {
   const { invoices, setInvoices } = useContext(InvoicesContext);
@@ -30,7 +31,7 @@ export default function ShowInvoices() {
     { key: "supplier_name", label: "Proveedor", className: "text-left" },
     { key: "description", label: "Descripción", className: "text-left" },
     { key: "invoice_date", label: "Fecha Factura" },
-    { key: "due_date", label: "Fecha Vencimiento"},
+    { key: "due_date", label: "Fecha Vencimiento" },
     { key: "payment_status", label: "Estado" },
     { key: "total_amount", label: "Valor Total" },
     { key: "amount_paid", label: "Valor Pagado" },
@@ -38,7 +39,10 @@ export default function ShowInvoices() {
   ];
 
   const editInvoice = (invoice_id: number) => {
-    ipcRenderer.send("edit-invoice", {invoice_id});
+    ipcRenderer.send("open-modal", {
+      name: "edit-invoice",
+      url: `edit-invoice?id=${invoice_id}`,
+    });
   };
 
   return (
@@ -46,6 +50,7 @@ export default function ShowInvoices() {
       <Head>
         <title>Facturas Diarias</title>
       </Head>
+      <Navigation />
       <Menu />
       <div className="container max-w-6xl px-4 py-4 mx-auto">
         {/* <h1 className="text-4xl font-bold text-center text-blue-600">
@@ -106,7 +111,8 @@ export default function ShowInvoices() {
                 colSpan={3}
                 className="px-2 py-1 text-right border-b border-gray-200"
               >
-                Cantidad de Facturas:  <span className="font-normal">{invoices.length}</span>
+                Cantidad de Facturas:{" "}
+                <span className="font-normal">{invoices.length}</span>
               </th>
               <th
                 colSpan={2}

@@ -1,15 +1,14 @@
-import { useContext } from "react";
-import { InvoicesContext } from "@/hooks/useHadleContext";
+import useSession from "@/hooks/useSession";
 import { useRouter } from "next/navigation";
 import Button from "@/app/components/Button";
 import showAlert from "./showAlert";
 
 export default function HandleSession() {
+  const { user, logout } = useSession();
   const router = useRouter();
-  const { user, setUser } = useContext(InvoicesContext);
 
   const handleLogout = () => {
-    setUser(null);
+    logout();
     setTimeout(() => {
       router.push("/login");
       showAlert("success", "Sesión cerrada con éxito");

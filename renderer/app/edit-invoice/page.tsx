@@ -46,7 +46,6 @@ export default function EditInvoice({ searchParams }) {
   useEffect(() => {
     console.log("invoice 2 effect", invoice);
     if (invoice) {
-      console.log("suppliers", suppliers);
       if (suppliers) {
         setSelectedSupplier(
           suppliers.find(
@@ -78,7 +77,6 @@ export default function EditInvoice({ searchParams }) {
   };
 
   useEffect(() => {
-    // Calculate the remaining amount based on the total and paid amounts
     const total = Number(totalAmount.replace(/\D/g, ""));
     const paid = Number(amountPaid.replace(/\D/g, ""));
     const remaining = total - paid;
@@ -220,18 +218,10 @@ export default function EditInvoice({ searchParams }) {
         const updatedInvoices = invoices.filter(
           (invoice) => invoice.invoice_id !== id
         );
-        setInvoices(
-          [...updatedInvoices, { ...updatedInvoice }]
-          // invoices.map((invoice) => {
-          //   if (invoice.invoice_id === id) {
-          //     return result;
-          //   }
-          //   return invoice;
-          // })
-        );
+        setInvoices([updatedInvoice, ...updatedInvoices]);
         showAlert("success", "Factura actualizada exitosamente");
         setTimeout(() => {
-          ipcRenderer.send("close-edit-invoice");
+          ipcRenderer.send("close-modal", {reload: true});
         }, 1000);
       } else {
         showAlert("error", "No se pudo actualizar la factura");
@@ -412,18 +402,18 @@ export default function EditInvoice({ searchParams }) {
           </div>
           <div className="flex flex-col md:flex-row gap-3">
             <Button
-              className="w-full p-3 bg-green-600 hover:bg-green-700 text-white font-bold shadow-md rounded-md"
-              onClick={() => {
-                ipcRenderer.send("close-edit-invoice");
-              }}
-            >
-              Cancelar
-            </Button>
-            <Button
               type="submit"
               className="w-full p-3 bg-green-600 hover:bg-green-700 text-white font-bold shadow-md rounded-md"
             >
               Actualizar
+            </Button>
+            <Button
+              className="w-full p-3 bg-green-600 hover:bg-green-700 text-white font-bold shadow-md rounded-md"
+              onClick={() => {
+                ipcRenderer.send("close-modal");
+              }}
+            >
+              Cancelar
             </Button>
           </div>
         </form>

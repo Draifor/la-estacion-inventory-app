@@ -1,20 +1,6 @@
 "use client"
 import { useState, createContext } from "react";
 
-type user = {
-  username: string;
-  role: string;
-};
-
-// type supplier = {
-//   supplier_id: number;
-//   supplier_name: string;
-//   telephone: string;
-//   address: string;
-//   type_id: number;
-//   [key: string]: any;
-// };
-
 type invoice = {
   invoice_id: number;
   supplier_id: number;
@@ -32,8 +18,6 @@ type invoice = {
 };
 
 type invoicesContextType = {
-  user: user;
-  setUser: (user: user) => void;
   suppliers: any [];
   setSuppliers: ([]) => void;
   invoices: invoice[];
@@ -45,8 +29,6 @@ type invoicesContextType = {
 };
 
 export const InvoicesContext = createContext<invoicesContextType>({
-  user: { username: "", role: "" },
-  setUser: () => {},
   suppliers: [],
   setSuppliers: () => {},
   invoices: [],

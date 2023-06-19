@@ -1,13 +1,23 @@
 "use client";
-import { useContext } from "react";
-import { InvoicesContext } from "@/hooks/useHadleContext";
+import { useEffect } from "react";
+import { useRouter } from "next/navigation";
+import useSession from "@/hooks/useSession";
 import Head from "next/head";
 import Link from "next/link";
 import ImageIcon from "@/app/components/icons/ImageIcon";
 import PlusIcon from "@/app/components/icons/PlusIcon";
+import Navigation from "./components/Navigation";
 
 export default function Home() {
-  const { user } = useContext(InvoicesContext);
+  const { user, loading } = useSession();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (loading) return;
+    if (!user) {
+      router.push("/login");
+    }
+  }, [user, loading]);
 
   const menuItems = [
     { name: "Agregar Proveedor", link: "/add-supplier", icon: <PlusIcon /> },
@@ -16,16 +26,22 @@ export default function Home() {
   ];
 
   const adminMenuItems = [
-    { name: "Generar Reporte", link: "/generate-report", icon: <PlusIcon />},
+    { name: "Generar Reporte", link: "/generate-report", icon: <PlusIcon /> },
     { name: "Agregar Usuario", link: "/create-user", icon: <PlusIcon /> },
     { name: "Mostrar Usuarios", link: "/show-users", icon: <ImageIcon /> },
   ];
+
+  // Mostrar un indicador de carga mientras se está obteniendo la sesión del usuario
+  if (loading) {
+    return <div>Cargando...</div>;
+  }
 
   return (
     <>
       <Head>
         <title>Menú Inicial</title>
       </Head>
+        <Navigation />
       <div className="flex flex-col items-center justify-center min-h-[90vh] max-h-[900px]">
         {user && (
           <div className="container max-w-lg px-4 py-6 bg-white shadow-lg rounded-lg">

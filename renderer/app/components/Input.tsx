@@ -25,7 +25,7 @@ export default function Input({
   disabled,
   pattern = ".*",
 }: InputProps) {
-  const isCellphone = id === "cellphone";
+  const isphone = id === "cellphone" || id === "telephone";
 
   const handleCellphoneChange = (event) => {
     let value = event.target.value.replace(/[^\d]/g, "");
@@ -65,7 +65,7 @@ export default function Input({
       }
       value={value}
       pattern={pattern}
-      onChange={isCellphone ? handleCellphoneChange :
+      onChange={isphone ? handleCellphoneChange :
         isHandleChange ? onChange : handleOnChange}
       autoFocus={autoFocus}
       required={required}
