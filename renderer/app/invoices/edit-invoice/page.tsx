@@ -4,13 +4,13 @@ import { InvoicesContext } from "@/hooks/useHadleContext";
 import db from "@/utils/database";
 import showAlert from "@/app/components/showAlert";
 import Select from "@/app/components/Select";
-import Textarea from "../../components/Textarea";
+import Textarea from "@/app/components/Textarea";
 import DatePicker from "react-datepicker";
 import { registerLocale } from "react-datepicker";
 import es from "date-fns/locale/es";
 import "react-datepicker/dist/react-datepicker.css";
-import Input from "../../components/Input";
-import Button from "../../components/Button";
+import Input from "@/app/components/Input";
+import Button from "@/app/components/Button";
 import { ipcRenderer } from "electron";
 
 const defaultSupplier = db.Supplier.build({
@@ -332,15 +332,6 @@ export default function EditInvoice({ searchParams }) {
             >
               Estado de Pago
             </label>
-            {/* <Select
-              id="paymentStatus"
-              className="mt-1 p-2 border border-gray-300 rounded-md"
-              value={paymentStatus}
-              onChange={handlePaymentStatusChange}
-              isHandleChange={true}
-            >
-              {paymentStatusOptions}
-            </Select> */}
             <Input
               type="text"
               id="paymentStatus"

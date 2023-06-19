@@ -1,3 +1,4 @@
+"use client";
 import { useContext } from "react";
 import { InvoicesContext } from "@/hooks/useHadleContext";
 import db from "@/utils/database";

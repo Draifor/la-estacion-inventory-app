@@ -29,6 +29,34 @@ if (isProd) {
     mainWindow.webContents.openDevTools();
   }
 
+  const eventActions = {
+    reload: () => {
+      const mainWindow = BrowserWindow.getFocusedWindow();
+      if (mainWindow) {
+        mainWindow.reload();
+      }
+    },
+    toggleFullscreen: () => {
+      const mainWindow = BrowserWindow.getFocusedWindow();
+      if (mainWindow) {
+        mainWindow.setFullScreen(!mainWindow.isFullScreen());
+      }
+    },
+    toggleDevTools: () => {
+      const mainWindow = BrowserWindow.getFocusedWindow();
+      if (mainWindow) {
+        mainWindow.webContents.toggleDevTools();
+      }
+    },
+  };
+
+  ipcMain.on('menu-event', (event, eventName) => {
+    const action = eventActions[eventName];
+    if (action) {
+      action();
+    }
+  });
+
   const defaultSession = session.defaultSession;
 
   ipcMain.on("get-session", async (event, arg) => {

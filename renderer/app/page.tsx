@@ -6,6 +6,7 @@ import Head from "next/head";
 import Link from "next/link";
 import ImageIcon from "@/app/components/icons/ImageIcon";
 import PlusIcon from "@/app/components/icons/PlusIcon";
+import UserIcon from "./components/icons/UserIcon";
 import Navigation from "./components/Navigation";
 
 export default function Home() {
@@ -26,9 +27,9 @@ export default function Home() {
   ];
 
   const adminMenuItems = [
-    { name: "Generar Reporte", link: "/generate-report", icon: <PlusIcon /> },
+    { name: "Generar Reporte", link: "/reports/generate-report", icon: <PlusIcon /> },
     { name: "Agregar Usuario", link: "/users/create-user", icon: <PlusIcon /> },
-    { name: "Mostrar Usuarios", link: "/users/show-users", icon: <ImageIcon /> },
+    { name: "Mostrar Usuarios", link: "/users/show-users", icon: <UserIcon /> },
   ];
 
   // Mostrar un indicador de carga mientras se está obteniendo la sesión del usuario

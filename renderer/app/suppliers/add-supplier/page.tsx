@@ -1,6 +1,5 @@
 "use client";
 import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
 import db from "@/utils/database";
 import Input from "@/app/components/Input";
 import Select from "@/app/components/Select";
@@ -15,7 +14,6 @@ const defaultSupplierType = db.SupplierType.build({
 });
 
 export default function AddSupplier() {
-  const router = useRouter();
   const [supplierName, setSupplierName] = useState("");
   const [telephone, setTelephone] = useState("");
   const [address, setAddress] = useState("");
@@ -103,96 +101,91 @@ export default function AddSupplier() {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen">
-      <div className="container max-w-lg px-4 py-6 bg-white shadow-lg rounded-lg">
-        <h1 className="text-4xl font-bold text-center text-blue-600">
-          Registrar Proveedor
-        </h1>
-        <form
-          className="space-y-6 border-t border-b border-gray-200 py-6"
-          onSubmit={handleSubmit}
-        >
-          <div className="flex flex-col">
-            <label
-              htmlFor="supplierName"
-              className="text-lg font-medium text-gray-600"
-            >
-              Nombre
-            </label>
-            <Input
-              type="text"
-              id="supplierName"
-              className="mt-2 p-2 border border-gray-300 rounded-md"
-              value={supplierName}
-              onChange={setSupplierName}
-            />
-          </div>
-          <div className="flex flex-col">
-            <label
-              htmlFor="telephone"
-              className="text-lg font-medium text-gray-600"
-            >
-              Teléfono
-            </label>
-            <Input
-              type="text"
-              id="telephone"
-              className="mt-2 p-2 border border-gray-300 rounded-md"
-              value={telephone}
-              onChange={setTelephone}
-              isHandleChange={true}
-            />
-          </div>
-          <div className="flex flex-col">
-            <label
-              htmlFor="address"
-              className="text-lg font-medium text-gray-600"
-            >
-              Dirección
-            </label>
-            <Input
-              type="text"
-              id="address"
-              className="mt-2 p-2 border border-gray-300 rounded-md"
-              value={address}
-              onChange={setAddress}
-            />
-          </div>
-          <div className="flex flex-col">
-            <label
-              htmlFor="supplierType"
-              className="text-lg font-medium text-gray-600"
-            >
-              Tipo
-            </label>
-            <Select
-              id="supplierType"
-              className="mt-2 p-2 border border-gray-300 rounded-md"
-              value={selectedType.type_name}
-              onChange={handleTypeChange}
-              isHandleChange={true}
-            >
-              {supplierTypeOptions}
-            </Select>
-          </div>
-          <div className="flex flex-col md:flex-row gap-3">
-            <Button
-              type="submit"
-              className="w-full p-3 bg-green-600 hover:bg-green-700 text-white font-bold shadow-md rounded-md"
-            >
-              Agregar Proveedor
-            </Button>
-            <Button
-              className="w-full p-3 bg-green-600 hover:bg-green-700 text-white font-bold shadow-md rounded-md"
-              onClick={() => {
-                ipcRenderer.send("close-modal");
-              }}
-            >
-              Cancelar
-            </Button>
-          </div>
-        </form>
-      </div>
-    </div>
+    <>
+      <form
+        className="space-y-6 border-t border-b border-gray-200 py-6"
+        onSubmit={handleSubmit}
+      >
+        <div className="flex flex-col">
+          <label
+            htmlFor="supplierName"
+            className="text-lg font-medium text-gray-600"
+          >
+            Nombre
+          </label>
+          <Input
+            type="text"
+            id="supplierName"
+            className="mt-2 p-2 border border-gray-300 rounded-md"
+            value={supplierName}
+            onChange={setSupplierName}
+          />
+        </div>
+        <div className="flex flex-col">
+          <label
+            htmlFor="telephone"
+            className="text-lg font-medium text-gray-600"
+          >
+            Teléfono
+          </label>
+          <Input
+            type="text"
+            id="telephone"
+            className="mt-2 p-2 border border-gray-300 rounded-md"
+            value={telephone}
+            onChange={setTelephone}
+            isHandleChange={true}
+          />
+        </div>
+        <div className="flex flex-col">
+          <label
+            htmlFor="address"
+            className="text-lg font-medium text-gray-600"
+          >
+            Dirección
+          </label>
+          <Input
+            type="text"
+            id="address"
+            className="mt-2 p-2 border border-gray-300 rounded-md"
+            value={address}
+            onChange={setAddress}
+          />
+        </div>
+        <div className="flex flex-col">
+          <label
+            htmlFor="supplierType"
+            className="text-lg font-medium text-gray-600"
+          >
+            Tipo
+          </label>
+          <Select
+            id="supplierType"
+            className="mt-2 p-2 border border-gray-300 rounded-md"
+            value={selectedType.type_name}
+            onChange={handleTypeChange}
+            isHandleChange={true}
+          >
+            {supplierTypeOptions}
+          </Select>
+        </div>
+        <div className="flex flex-col md:flex-row gap-3">
+          <Button
+            type="submit"
+            className="w-full p-3 bg-green-600 hover:bg-green-700 text-white font-bold shadow-md rounded-md"
+          >
+            Agregar Proveedor
+          </Button>
+          <Button
+            className="w-full p-3 bg-green-600 hover:bg-green-700 text-white font-bold shadow-md rounded-md"
+            onClick={() => {
+              ipcRenderer.send("close-modal");
+            }}
+          >
+            Cancelar
+          </Button>
+        </div>
+      </form>
+    </>
   );
 }

@@ -1,8 +1,5 @@
-"use client";
-import useHandleContext from "../hooks/useHadleContext";
 import "../styles/globals.css";
-import { ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import Providers from "./providers/providers";
 
 export const metadata = {
   title: "Sistema de Facturación",
@@ -14,37 +11,13 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const {
-    InvoicesContext,
-    suppliers,
-    setSuppliers,
-    invoices,
-    setInvoices,
-    startDate,
-    setStartDate,
-    endDate,
-    setEndDate,
-  } = useHandleContext();
-
   return (
     <html lang="en">
-      <InvoicesContext.Provider
-        value={{
-          suppliers,
-          setSuppliers,
-          invoices,
-          setInvoices,
-          startDate,
-          setStartDate,
-          endDate,
-          setEndDate,
-        }}
-      >
+      <Providers>
         <body className="min-h-screen">
-          <ToastContainer />
-            <main className="min-h-full">{children}</main>
+          <main className="min-h-full">{children}</main>
         </body>
-      </InvoicesContext.Provider>
+      </Providers>
     </html>
   );
 }

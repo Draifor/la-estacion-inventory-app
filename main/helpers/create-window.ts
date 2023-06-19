@@ -155,13 +155,13 @@ export default (
         {
           label: "Pantalla Completa",
           accelerator: process.platform === "darwin" ? "Ctrl+Command+F" : "F11",
-          eventName: "toggle-fullscreen",
+          eventName: "toggleFullscreen",
         },
         {
           label: "Herramientas de Desarrollo",
           accelerator:
             process.platform === "darwin" ? "Alt+Command+I" : "Ctrl+Shift+I",
-          eventName: "toggle-devtools",
+          eventName: "toggleDevTools",
         },
       ],
     },

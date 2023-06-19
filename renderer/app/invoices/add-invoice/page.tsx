@@ -1,7 +1,6 @@
 "use client";
 import { useState, useEffect, useContext } from "react";
 import { InvoicesContext } from "@/hooks/useHadleContext";
-import { useRouter } from "next/navigation";
 import db from "@/utils/database";
 import Input from "@/app/components/Input";
 import Select from "@/app/components/Select";
@@ -28,7 +27,6 @@ const partialPayment = { type_id: 2, type_name: PARTIAL_PAYMENT };
 const paymentTypes = [totalPayment, partialPayment];
 
 export default function AddInvoice() {
-  const router = useRouter();
   registerLocale("es", es);
   const { suppliers, setSuppliers } = useContext(InvoicesContext);
   const [selectedSupplier, setSelectedSupplier] = useState(defaultSupplier);
@@ -216,146 +214,139 @@ export default function AddInvoice() {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center my-8 min-h-screen">
-      <div className="container max-w-lg px-4 py-6 bg-white shadow-lg rounded-lg">
-        <h1 className="text-4xl font-bold text-center text-blue-600">
-          Registrar Factura
-        </h1>
-        <form
-          className="space-y-6 border-t border-b border-gray-200 py-6"
-          onSubmit={handleSubmit}
+    <form
+      className="space-y-6 border-t border-b border-gray-200 py-6"
+      onSubmit={handleSubmit}
+    >
+      <div className="flex flex-col md:flex-row md:space-x-8">
+        <label
+          htmlFor="supplier"
+          className="text-lg font-medium text-gray-600 md:w-2/5"
         >
-          <div className="flex flex-col md:flex-row md:space-x-8">
-            <label
-              htmlFor="supplier"
-              className="text-lg font-medium text-gray-600 md:w-2/5"
-            >
-              Proveedor
-            </label>
-            <Select
-              id="supplier"
-              className="mt-1 p-2 border border-gray-300 rounded-md"
-              value={selectedSupplier.supplier_name}
-              onChange={handleSupplierChange}
-              isHandleChange={true}
-            >
-              {supplierOptions}
-            </Select>
-          </div>
-          <div className="flex flex-col md:flex-row md:space-x-8">
-            <label
-              htmlFor="paymentType"
-              className="text-lg font-medium text-gray-600 md:w-1/2"
-            >
-              Tipo de Pago
-            </label>
-            <Select
-              id="paymentType"
-              className="mt-1 p-2 border border-gray-300 rounded-md"
-              value={selectedPaymentType.type_name}
-              onChange={handlePaymentTypeChange}
-              isHandleChange={true}
-            >
-              {paymentTypeOptions}
-            </Select>
-          </div>
-          <div className="flex flex-col md:flex-row md:space-x-8">
-            <label
-              htmlFor="dueDate"
-              className="text-lg font-medium text-gray-600 md:w-3/5"
-            >
-              Fecha Vencimiento
-            </label>
-            <DatePicker
-              id="dueDate"
-              selected={dueDate}
-              onChange={handleDueDateChange}
-              dateFormat="dd/MM/yyyy"
-              locale="es"
-              className="appearance-none text-gray-700 border border-gray-200 rounded py-1 text-center px-4 ml-6 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-            />
-          </div>
-          <div className="flex flex-col">
-            <label
-              htmlFor="description"
-              className="text-lg font-medium text-gray-600"
-            >
-              Descripción
-            </label>
-            <Textarea
-              id="description"
-              className="mt-1 p-2 border border-gray-300 rounded-md"
-              value={description}
-              onChange={handleDescriptionChange}
-              isHandleChange={true}
-            />
-          </div>
-          <div className="flex flex-col md:flex-row md:space-x-8">
-            <label
-              htmlFor="totalAmount"
-              className="text-lg font-medium text-gray-600 md:w-1/2"
-            >
-              Valor Factura
-            </label>
-            <Input
-              type="text"
-              id="totalAmount"
-              className="mt-1 p-2 border border-gray-300 rounded-md md:w-1/2"
-              value={"$ " + totalAmount}
-              onChange={handleTotalAmountChange}
-              isHandleChange={true}
-              required
-            />
-          </div>
-          <div className="flex flex-col md:flex-row md:space-x-8">
-            <label
-              htmlFor="paidAmount"
-              className="text-lg font-medium text-gray-600 md:w-1/2"
-            >
-              Valor a Pagar
-            </label>
-            <Input
-              type="text"
-              id="paidAmount"
-              className="mt-1 p-2 border border-gray-300 rounded-md md:w-1/2"
-              value={"$ " + paidAmount}
-              onChange={handlePaidAmountChange}
-              isHandleChange={true}
-              required
-              disabled={isTotalPayment}
-            />
-          </div>
-          <div className="flex flex-col md:flex-row md:space-x-8">
-            <label
-              htmlFor="remainingAmount"
-              className="text-lg font-medium text-gray-600 md:w-1/2"
-            >
-              Valor Restante
-            </label>
-            <Input
-              type="text"
-              id="remainingAmount"
-              className="mt-1 p-2 border border-gray-300 rounded-md md:w-1/2"
-              value={"$ " + remainingAmount}
-              disabled
-            />
-          </div>
-          <Button
-            type="submit"
-            className="w-full p-3 bg-green-600 hover:bg-green-700 text-white font-bold shadow-md rounded-md"
-          >
-            Agregar Factura
-          </Button>
-          <Button
-            className="w-full p-3 bg-green-600 hover:bg-green-700 text-white font-bold shadow-md rounded-md"
-            onClick={() => {
-              ipcRenderer.send("close-modal");
-            }}
-          >
-            Cancelar
-          </Button>
-        </form>
+          Proveedor
+        </label>
+        <Select
+          id="supplier"
+          className="mt-1 p-2 border border-gray-300 rounded-md"
+          value={selectedSupplier.supplier_name}
+          onChange={handleSupplierChange}
+          isHandleChange={true}
+        >
+          {supplierOptions}
+        </Select>
       </div>
-    </div>
+      <div className="flex flex-col md:flex-row md:space-x-8">
+        <label
+          htmlFor="paymentType"
+          className="text-lg font-medium text-gray-600 md:w-1/2"
+        >
+          Tipo de Pago
+        </label>
+        <Select
+          id="paymentType"
+          className="mt-1 p-2 border border-gray-300 rounded-md"
+          value={selectedPaymentType.type_name}
+          onChange={handlePaymentTypeChange}
+          isHandleChange={true}
+        >
+          {paymentTypeOptions}
+        </Select>
+      </div>
+      <div className="flex flex-col md:flex-row md:space-x-8">
+        <label
+          htmlFor="dueDate"
+          className="text-lg font-medium text-gray-600 md:w-3/5"
+        >
+          Fecha Vencimiento
+        </label>
+        <DatePicker
+          id="dueDate"
+          selected={dueDate}
+          onChange={handleDueDateChange}
+          dateFormat="dd/MM/yyyy"
+          locale="es"
+          className="appearance-none text-gray-700 border border-gray-200 rounded py-1 text-center px-4 ml-6 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+        />
+      </div>
+      <div className="flex flex-col">
+        <label
+          htmlFor="description"
+          className="text-lg font-medium text-gray-600"
+        >
+          Descripción
+        </label>
+        <Textarea
+          id="description"
+          className="mt-1 p-2 border border-gray-300 rounded-md"
+          value={description}
+          onChange={handleDescriptionChange}
+          isHandleChange={true}
+        />
+      </div>
+      <div className="flex flex-col md:flex-row md:space-x-8">
+        <label
+          htmlFor="totalAmount"
+          className="text-lg font-medium text-gray-600 md:w-1/2"
+        >
+          Valor Factura
+        </label>
+        <Input
+          type="text"
+          id="totalAmount"
+          className="mt-1 p-2 border border-gray-300 rounded-md md:w-1/2"
+          value={"$ " + totalAmount}
+          onChange={handleTotalAmountChange}
+          isHandleChange={true}
+          required
+        />
+      </div>
+      <div className="flex flex-col md:flex-row md:space-x-8">
+        <label
+          htmlFor="paidAmount"
+          className="text-lg font-medium text-gray-600 md:w-1/2"
+        >
+          Valor a Pagar
+        </label>
+        <Input
+          type="text"
+          id="paidAmount"
+          className="mt-1 p-2 border border-gray-300 rounded-md md:w-1/2"
+          value={"$ " + paidAmount}
+          onChange={handlePaidAmountChange}
+          isHandleChange={true}
+          required
+          disabled={isTotalPayment}
+        />
+      </div>
+      <div className="flex flex-col md:flex-row md:space-x-8">
+        <label
+          htmlFor="remainingAmount"
+          className="text-lg font-medium text-gray-600 md:w-1/2"
+        >
+          Valor Restante
+        </label>
+        <Input
+          type="text"
+          id="remainingAmount"
+          className="mt-1 p-2 border border-gray-300 rounded-md md:w-1/2"
+          value={"$ " + remainingAmount}
+          disabled
+        />
+      </div>
+      <Button
+        type="submit"
+        className="w-full p-3 bg-green-600 hover:bg-green-700 text-white font-bold shadow-md rounded-md"
+      >
+        Agregar Factura
+      </Button>
+      <Button
+        className="w-full p-3 bg-green-600 hover:bg-green-700 text-white font-bold shadow-md rounded-md"
+        onClick={() => {
+          ipcRenderer.send("close-modal");
+        }}
+      >
+        Cancelar
+      </Button>
+    </form>
   );
 }

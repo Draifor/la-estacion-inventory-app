@@ -1,3 +1,4 @@
+"use client";
 import useSession from "@/hooks/useSession";
 import Link from "next/link";
 import DropdownMenu from "@/app/components/DropdownMenu";
@@ -10,7 +11,7 @@ export default function Navigation() {
   const router = useRouter();
 
   const adminMenuItems = [
-    { name: "Generar Reporte", link: "/generate-report" },
+    { name: "Generar Reporte", link: "/reports/generate-report" },
   ];
 
   const openModalFunction = (link) => {
