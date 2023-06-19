@@ -11,8 +11,6 @@ export default function Navigation() {
 
   const adminMenuItems = [
     { name: "Generar Reporte", link: "/generate-report" },
-    { name: "Agregar Usuario", link: "/create-user" },
-    { name: "Mostrar Usuarios", link: "/show-users" },
   ];
 
   const openModalFunction = (link) => {
@@ -30,17 +28,17 @@ export default function Navigation() {
       items: [
         {
           label: "Agregar Proveedor",
-          onClick: openModalFunction("add-supplier"),
+          onClick: openModalFunction("suppliers/add-supplier"),
         },
       ],
     },
     {
       firstLabel: "Facturas",
       items: [
-        { label: "Agregar Factura", onClick: openModalFunction("add-invoice") },
+        { label: "Agregar Factura", onClick: openModalFunction("invoices/add-invoice") },
         {
           label: "Mostrar Facturas",
-          onClick: () => router.push("/show-invoices"),
+          onClick: () => router.push("/invoices/show-invoices"),
         },
       ],
     },
@@ -48,10 +46,10 @@ export default function Navigation() {
       firstLabel: "Usuarios",
       isAdmin: true,
       items: [
-        { label: "Agregar Usuario", onClick: openModalFunction("create-user") },
+        { label: "Agregar Usuario", onClick: openModalFunction("users/create-user") },
         {
           label: "Mostrar Usuarios",
-          onClick: () => router.push("/show-users"),
+          onClick: () => router.push("/users/show-users"),
         },
       ],
     },

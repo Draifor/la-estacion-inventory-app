@@ -2,12 +2,13 @@
 import { useState } from "react";
 import Head from "next/head";
 import { useRouter } from "next/navigation";
-import Input from "../components/Input";
-import Button from "../components/Button";
-import showAlert from "../components/showAlert";
+import Input from "@/app/components/Input";
+import Button from "@/app/components/Button";
+import showAlert from "@/app/components/showAlert";
 import db from "@/utils/database";
-import Select from "../components/Select";
+import Select from "@/app/components/Select";
 import bcrypt from "bcryptjs";
+import { ipcRenderer } from "electron";
 
 const roles = [
   { value: "admin", label: "Administrador" },
@@ -30,10 +31,10 @@ export default function createUser() {
       </option>
     );
   });
-  
-    const handleNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-      setName(event.target.value);
-    };
+
+  const handleNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setName(event.target.value);
+  };
 
   const handleUserNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setUsername(event.target.value);
@@ -125,7 +126,10 @@ export default function createUser() {
             onSubmit={handleSubmit}
           >
             <div className="flex flex-col">
-              <label htmlFor="name" className="text-lg font-medium text-gray-600">
+              <label
+                htmlFor="name"
+                className="text-lg font-medium text-gray-600"
+              >
                 Nombre
               </label>
               <Input
@@ -226,6 +230,14 @@ export default function createUser() {
           text-white font-bold shadow-md rounded-md"
             >
               Crear Usuario
+            </Button>
+            <Button
+              className="w-full p-3 bg-green-600 hover:bg-green-700 text-white font-bold shadow-md rounded-md"
+              onClick={() => {
+                ipcRenderer.send("close-modal");
+              }}
+            >
+              Cancelar
             </Button>
           </form>
         </div>

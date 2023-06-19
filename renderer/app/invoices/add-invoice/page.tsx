@@ -13,6 +13,7 @@ import es from "date-fns/locale/es";
 import showAlert from "@/app/components/showAlert";
 import Textarea from "@/app/components/Textarea";
 import Button from "@/app/components/Button";
+import { ipcRenderer } from "electron";
 
 const TOTAL_PAYMENT = "Pago total";
 const PARTIAL_PAYMENT = "Pago parcial";
@@ -176,7 +177,7 @@ export default function AddInvoice() {
       resetForm();
 
       // setTimeout(() => {
-        router.push("/show-invoices");
+      router.push("/show-invoices");
       // }, 1000);
     } catch (error) {
       showAlert("error", "No se pudo agregar la factura");
@@ -344,6 +345,14 @@ export default function AddInvoice() {
             className="w-full p-3 bg-green-600 hover:bg-green-700 text-white font-bold shadow-md rounded-md"
           >
             Agregar Factura
+          </Button>
+          <Button
+            className="w-full p-3 bg-green-600 hover:bg-green-700 text-white font-bold shadow-md rounded-md"
+            onClick={() => {
+              ipcRenderer.send("close-modal");
+            }}
+          >
+            Cancelar
           </Button>
         </form>
       </div>

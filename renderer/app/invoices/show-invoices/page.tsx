@@ -5,7 +5,7 @@ import Head from "next/head";
 import db from "@/utils/database";
 import Menu from "@/app/components/Menu";
 import { ipcRenderer } from "electron";
-import Navigation from "../components/Navigation";
+import Navigation from "@/app/components/Navigation";
 
 export default function ShowInvoices() {
   const { invoices, setInvoices } = useContext(InvoicesContext);
@@ -41,7 +41,7 @@ export default function ShowInvoices() {
   const editInvoice = (invoice_id: number) => {
     ipcRenderer.send("open-modal", {
       name: "edit-invoice",
-      url: `edit-invoice?id=${invoice_id}`,
+      url: `invoices/edit-invoice?id=${invoice_id}`,
     });
   };
 

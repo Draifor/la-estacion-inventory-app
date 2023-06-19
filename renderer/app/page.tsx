@@ -20,15 +20,15 @@ export default function Home() {
   }, [user, loading]);
 
   const menuItems = [
-    { name: "Agregar Proveedor", link: "/add-supplier", icon: <PlusIcon /> },
-    { name: "Agregar Factura", link: "/add-invoice", icon: <PlusIcon /> },
-    { name: "Mostrar Facturas", link: "/show-invoices", icon: <ImageIcon /> },
+    { name: "Agregar Proveedor", link: "/suppliers/add-supplier", icon: <PlusIcon /> },
+    { name: "Agregar Factura", link: "/invoices/add-invoice", icon: <PlusIcon /> },
+    { name: "Mostrar Facturas", link: "/invoices/show-invoices", icon: <ImageIcon /> },
   ];
 
   const adminMenuItems = [
     { name: "Generar Reporte", link: "/generate-report", icon: <PlusIcon /> },
-    { name: "Agregar Usuario", link: "/create-user", icon: <PlusIcon /> },
-    { name: "Mostrar Usuarios", link: "/show-users", icon: <ImageIcon /> },
+    { name: "Agregar Usuario", link: "/users/create-user", icon: <PlusIcon /> },
+    { name: "Mostrar Usuarios", link: "/users/show-users", icon: <ImageIcon /> },
   ];
 
   // Mostrar un indicador de carga mientras se está obteniendo la sesión del usuario
