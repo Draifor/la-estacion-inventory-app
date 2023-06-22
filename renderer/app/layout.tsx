@@ -13,11 +13,11 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <Providers>
         <body className="min-h-screen">
+      <Providers>
           <main className="min-h-full">{children}</main>
-        </body>
       </Providers>
+        </body>
     </html>
   );
 }
