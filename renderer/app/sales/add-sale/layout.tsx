@@ -1,4 +1,10 @@
 import React from "react";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Registrar Venta",
+  description: "Registrar Venta",
+};
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (

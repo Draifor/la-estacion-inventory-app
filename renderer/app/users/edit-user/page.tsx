@@ -1,10 +1,10 @@
 "use client";
 import { useState, useEffect } from "react";
 import db from "@/utils/database";
-import showAlert from "@/app/components/showAlert";
-import Select from "@/app/components/Select";
-import Input from "@/app/components/Input";
-import Button from "@/app/components/Button";
+import showAlert from "@/components/showAlert";
+import Select from "@/components/Select";
+import Input from "@/components/Input";
+import Button from "@/components/Button";
 import { ipcRenderer } from "electron";
 import bcrypt from "bcryptjs";
 
@@ -88,7 +88,10 @@ export default function EditInvoice({ searchParams }) {
       return;
     }
     if (username.trim().length < 3) {
-      showAlert("warning", "El nombre de usuario debe tener al menos 3 caracteres");
+      showAlert(
+        "warning",
+        "El nombre de usuario debe tener al menos 3 caracteres"
+      );
       return;
     }
     if (cellphone && cellphone?.trim() !== "") {

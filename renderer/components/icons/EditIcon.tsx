@@ -1,5 +1,3 @@
-import React from "react";
-
 export default function EditIcon() {
   return (
     <svg
@@ -9,7 +7,6 @@ export default function EditIcon() {
       stroke="currentColor"
       fill="currentColor"
     >
-      {/* <style type="text/css">{`.st0{fill:none;}`}</style> */}
       <g>
         <g>
           <path

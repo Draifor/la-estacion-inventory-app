@@ -1,13 +1,18 @@
 "use client";
 import { useEffect, useState } from "react";
-import useSession from "@/hooks/useSession";
-import Head from "next/head";
 import { useRouter } from "next/navigation";
-import Input from "@/app/components/Input";
-import Button from "@/app/components/Button";
-import db from "@/utils/database";
-import showAlert from "@/app/components/showAlert";
+import { Metadata } from "next";
 import bcrypt from "bcryptjs";
+import useSession from "@/hooks/useSession";
+import Input from "@/components/Input";
+import Button from "@/components/Button";
+import db from "@/utils/database";
+import showAlert from "@/components/showAlert";
+
+export const metadata: Metadata = {
+  title: "Iniciar Sesión",
+  description: "Iniciar Sesión",
+};
 
 export default function Login() {
   const { user, loading, login } = useSession();
@@ -59,7 +64,7 @@ export default function Login() {
             login({ username: user.username, role: user.role });
             // setTimeout(() => {
             showAlert("success", `Bienvenido ${user.username}`);
-              router.push("/");
+            router.push("/");
             // }, 1000);
           } else {
             showAlert("error", "Contraseña incorrecta");
@@ -77,14 +82,15 @@ export default function Login() {
 
   // Mostrar un indicador de carga mientras se está obteniendo la sesión del usuario
   if (loading) {
-    return <div className="text-4xl font-bold text-center text-blue-600">Cargando...</div>;
+    return (
+      <div className="text-4xl font-bold text-center text-blue-600">
+        Cargando...
+      </div>
+    );
   }
 
   return (
     <>
-      <Head>
-        <title>Iniciar Sesión</title>
-      </Head>
       <div className="flex flex-col items-center justify-center min-h-[600px]">
         <div className="container max-w-lg px-4 py-8 bg-white shadow-lg rounded-lg">
           <h1 className="text-4xl font-bold text-center text-blue-600">

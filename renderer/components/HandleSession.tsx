@@ -1,7 +1,7 @@
 import useSession from "@/hooks/useSession";
 import { useRouter } from "next/navigation";
-import Button from "@/app/components/Button";
-import showAlert from "./showAlert";
+import Button from "@/components/Button";
+import showAlert from "@/components/showAlert";
 
 export default function HandleSession() {
   const { user, logout } = useSession();

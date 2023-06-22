@@ -1,8 +1,8 @@
 "use client";
 import useSession from "@/hooks/useSession";
 import Link from "next/link";
-import DropdownMenu from "@/app/components/DropdownMenu";
-import HandleSession from "@/app/components/HandleSession";
+import DropdownMenu from "@/components/DropdownMenu";
+import HandleSession from "@/components/HandleSession";
 import { ipcRenderer } from "electron";
 import { useRouter } from "next/navigation";
 
@@ -36,7 +36,10 @@ export default function Navigation() {
     {
       firstLabel: "Facturas",
       items: [
-        { label: "Agregar Factura", onClick: openModalFunction("invoices/add-invoice") },
+        {
+          label: "Agregar Factura",
+          onClick: openModalFunction("invoices/add-invoice"),
+        },
         {
           label: "Mostrar Facturas",
           onClick: () => router.push("/invoices/show-invoices"),
@@ -46,7 +49,10 @@ export default function Navigation() {
     {
       firstLabel: "Ventas",
       items: [
-        { label: "Agregar Venta", onClick: openModalFunction("sales/add-sale") },
+        {
+          label: "Agregar Venta",
+          onClick: openModalFunction("sales/add-sale"),
+        },
         {
           label: "Mostrar Ventas",
           onClick: () => router.push("/sales/show-sales"),
@@ -57,7 +63,10 @@ export default function Navigation() {
       firstLabel: "Usuarios",
       isAdmin: true,
       items: [
-        { label: "Agregar Usuario", onClick: openModalFunction("users/create-user") },
+        {
+          label: "Agregar Usuario",
+          onClick: openModalFunction("users/create-user"),
+        },
         {
           label: "Mostrar Usuarios",
           onClick: () => router.push("/users/show-users"),
@@ -102,7 +111,7 @@ export default function Navigation() {
                   ))}
               </ul>
             </div>
-              <HandleSession />
+            <HandleSession />
           </div>
         </div>
       </nav>

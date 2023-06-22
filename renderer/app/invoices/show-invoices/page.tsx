@@ -1,13 +1,11 @@
 "use client";
 import React, { useEffect, useContext } from "react";
-import { InvoicesContext } from "@/hooks/useHadleContext";
-import Head from "next/head";
-import db from "@/utils/database";
-import Menu from "@/app/components/Menu";
 import { ipcRenderer } from "electron";
-import Button from "@/app/components/Button";
-import EditIcon from "@/app/components/icons/EditIcon";
-import DeleteIcon from "@/app/components/icons/DeleteIcon";
+import { InvoicesContext } from "@/hooks/useHadleContext";
+import db from "@/utils/database";
+import Button from "@/components/Button";
+import EditIcon from "@/components/icons/EditIcon";
+import DeleteIcon from "@/components/icons/DeleteIcon";
 
 export default function ShowInvoices() {
   const { invoices, setInvoices } = useContext(InvoicesContext);

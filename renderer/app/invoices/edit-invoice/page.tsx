@@ -1,17 +1,17 @@
 "use client";
 import { useState, useEffect, useContext } from "react";
-import { InvoicesContext } from "@/hooks/useHadleContext";
-import db from "@/utils/database";
-import showAlert from "@/app/components/showAlert";
-import Select from "@/app/components/Select";
-import Textarea from "@/app/components/Textarea";
 import DatePicker from "react-datepicker";
 import { registerLocale } from "react-datepicker";
 import es from "date-fns/locale/es";
 import "react-datepicker/dist/react-datepicker.css";
-import Input from "@/app/components/Input";
-import Button from "@/app/components/Button";
 import { ipcRenderer } from "electron";
+import { InvoicesContext } from "@/hooks/useHadleContext";
+import db from "@/utils/database";
+import showAlert from "@/components/showAlert";
+import Select from "@/components/Select";
+import Textarea from "@/components/Textarea";
+import Input from "@/components/Input";
+import Button from "@/components/Button";
 
 const defaultSupplier = db.Supplier.build({
   supplier_id: 0,
@@ -221,7 +221,7 @@ export default function EditInvoice({ searchParams }) {
         setInvoices([updatedInvoice, ...updatedInvoices]);
         showAlert("success", "Factura actualizada exitosamente");
         setTimeout(() => {
-          ipcRenderer.send("close-modal", {reload: true});
+          ipcRenderer.send("close-modal", { reload: true });
         }, 1000);
       } else {
         showAlert("error", "No se pudo actualizar la factura");

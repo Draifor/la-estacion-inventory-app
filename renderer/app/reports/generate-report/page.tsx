@@ -1,15 +1,15 @@
 "use client";
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
-import Select from "@/app/components/Select";
-import Button from "@/app/components/Button";
-import db from "@/utils/database";
 import { Op } from "sequelize";
-import showAlert from "@/app/components/showAlert";
 import DatePicker from "react-datepicker";
 import { registerLocale } from "react-datepicker";
 import es from "date-fns/locale/es";
 import "react-datepicker/dist/react-datepicker.css";
+import Select from "@/components/Select";
+import Button from "@/components/Button";
+import db from "@/utils/database";
+import showAlert from "@/components/showAlert";
 
 export default function GenerateReport() {
   const router = useRouter();

@@ -1,18 +1,18 @@
 "use client";
 import { useState, useEffect, useContext } from "react";
-import { InvoicesContext } from "@/hooks/useHadleContext";
-import db from "@/utils/database";
-import Input from "@/app/components/Input";
-import Select from "@/app/components/Select";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { registerLocale } from "react-datepicker";
 import es from "date-fns/locale/es";
-
-import showAlert from "@/app/components/showAlert";
-import Textarea from "@/app/components/Textarea";
-import Button from "@/app/components/Button";
 import { ipcRenderer } from "electron";
+
+import { InvoicesContext } from "@/hooks/useHadleContext";
+import db from "@/utils/database";
+import Input from "@/components/Input";
+import Select from "@/components/Select";
+import showAlert from "@/components/showAlert";
+import Textarea from "@/components/Textarea";
+import Button from "@/components/Button";
 
 const TOTAL_PAYMENT = "Pago total";
 const PARTIAL_PAYMENT = "Pago parcial";

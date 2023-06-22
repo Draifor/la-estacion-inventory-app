@@ -1,18 +1,18 @@
-"use client"
+"use client";
 import { useState, useEffect } from "react";
-import db from "@/utils/database";
 import { Op } from "sequelize";
 import Link from "next/link";
+import db from "@/utils/database";
 
 export default function report({ searchParams }) {
   const { startDate, endDate, reportType } = searchParams;
   const [invoices, setInvoices] = useState([]);
-  
+
   useEffect(() => {
     console.log("startDate: ", startDate);
     console.log("endDate: ", endDate);
     console.log("reportType: ", reportType);
-    
+
     fetchInvoices();
   }, []);
 
@@ -21,7 +21,10 @@ export default function report({ searchParams }) {
       include: [db.Supplier],
       where: {
         invoice_date: {
-          [Op.between]: [new Date(startDate + "T00:00:00-05:00"), new Date(endDate + "T00:00:00-05:00")],
+          [Op.between]: [
+            new Date(startDate + "T00:00:00-05:00"),
+            new Date(endDate + "T00:00:00-05:00"),
+          ],
         },
       },
     });
@@ -54,9 +57,7 @@ export default function report({ searchParams }) {
           })}
         </tbody>
       </table>
-      <Link href="/">
-        Regresar
-      </Link>
+      <Link href="/">Regresar</Link>
     </div>
   );
 }

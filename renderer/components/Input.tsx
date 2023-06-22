@@ -1,4 +1,4 @@
-import showAlert from "./showAlert";
+import showAlert from "@/components/showAlert";
 
 type InputProps = {
   type: string;
@@ -65,8 +65,13 @@ export default function Input({
       }
       value={value}
       pattern={pattern}
-      onChange={isphone ? handleCellphoneChange :
-        isHandleChange ? onChange : handleOnChange}
+      onChange={
+        isphone
+          ? handleCellphoneChange
+          : isHandleChange
+          ? onChange
+          : handleOnChange
+      }
       autoFocus={autoFocus}
       required={required}
       disabled={disabled}

@@ -1,12 +1,12 @@
 "use client";
 import { useState, useEffect } from "react";
 import db from "@/utils/database";
-import Input from "@/app/components/Input";
-import Select from "@/app/components/Select";
+import Input from "@/components/Input";
+import Select from "@/components/Select";
 import { ipcRenderer } from "electron";
 
-import showAlert from "@/app/components/showAlert";
-import Button from "@/app/components/Button";
+import showAlert from "@/components/showAlert";
+import Button from "@/components/Button";
 
 const defaultSupplierType = db.SupplierType.build({
   type_id: 0,

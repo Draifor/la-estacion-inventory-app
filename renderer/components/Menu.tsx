@@ -3,17 +3,17 @@ import { useContext } from "react";
 import { InvoicesContext } from "@/hooks/useHadleContext";
 import db from "@/utils/database";
 import { Op } from "sequelize";
-import Button from "@/app/components/Button";
-import showAlert from "@/app/components/showAlert";
+import Button from "@/components/Button";
+import showAlert from "@/components/showAlert";
 import DatePicker from "react-datepicker";
-import { registerLocale } from  "react-datepicker";
-import es from 'date-fns/locale/es';
+import { registerLocale } from "react-datepicker";
+import es from "date-fns/locale/es";
 import "react-datepicker/dist/react-datepicker.css";
 
 export default function Menu() {
   const { setInvoices, startDate, setStartDate, endDate, setEndDate } =
-  useContext(InvoicesContext);
-  registerLocale('es', es)
+    useContext(InvoicesContext);
+  registerLocale("es", es);
 
   const handleStartDateChange = (date) => {
     date.setHours(0, 0, 0, 1);

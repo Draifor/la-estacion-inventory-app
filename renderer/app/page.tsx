@@ -2,12 +2,16 @@
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import useSession from "@/hooks/useSession";
-import Head from "next/head";
+import { Metadata } from "next";
 import Link from "next/link";
-import ImageIcon from "@/app/components/icons/ImageIcon";
-import PlusIcon from "@/app/components/icons/PlusIcon";
-import UserIcon from "./components/icons/UserIcon";
-import Navigation from "./components/Navigation";
+import ImageIcon from "@/components/icons/ImageIcon";
+import PlusIcon from "@/components/icons/PlusIcon";
+import UserIcon from "@/components/icons/UserIcon";
+import Navigation from "@/components/Navigation";
+
+export const metadata: Metadata = {
+  title: "Menú Inicial",
+};
 
 export default function Home() {
   const { user, loading } = useSession();
@@ -21,13 +25,29 @@ export default function Home() {
   }, [user, loading]);
 
   const menuItems = [
-    { name: "Agregar Proveedor", link: "/suppliers/add-supplier", icon: <PlusIcon /> },
-    { name: "Agregar Factura", link: "/invoices/add-invoice", icon: <PlusIcon /> },
-    { name: "Mostrar Facturas", link: "/invoices/show-invoices", icon: <ImageIcon /> },
+    {
+      name: "Agregar Proveedor",
+      link: "/suppliers/add-supplier",
+      icon: <PlusIcon />,
+    },
+    {
+      name: "Agregar Factura",
+      link: "/invoices/add-invoice",
+      icon: <PlusIcon />,
+    },
+    {
+      name: "Mostrar Facturas",
+      link: "/invoices/show-invoices",
+      icon: <ImageIcon />,
+    },
   ];
 
   const adminMenuItems = [
-    { name: "Generar Reporte", link: "/reports/generate-report", icon: <PlusIcon /> },
+    {
+      name: "Generar Reporte",
+      link: "/reports/generate-report",
+      icon: <PlusIcon />,
+    },
     { name: "Agregar Usuario", link: "/users/create-user", icon: <PlusIcon /> },
     { name: "Mostrar Usuarios", link: "/users/show-users", icon: <UserIcon /> },
   ];
@@ -39,10 +59,7 @@ export default function Home() {
 
   return (
     <>
-      <Head>
-        <title>Menú Inicial</title>
-      </Head>
-        <Navigation />
+      <Navigation />
       <div className="flex flex-col items-center justify-center min-h-[90vh] max-h-[900px]">
         {user && (
           <div className="container max-w-lg px-4 py-6 bg-white shadow-lg rounded-lg">

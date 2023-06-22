@@ -50,6 +50,4 @@ export default function showAlert(type: string, message: string) {
       toast(message, props);
       break;
   }
-
-
 }

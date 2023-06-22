@@ -1,9 +1,9 @@
 import React from "react";
-import Head from "next/head";
-import Navigation from "@/app/components/Navigation";
-import Menu from "@/app/components/Menu";
+import { Metadata } from "next";
+import Navigation from "@/components/Navigation";
+import Menu from "@/components/Menu";
 
-export const metadata = {
+export const metadata: Metadata = {
   title: "Facturas Diarias",
   description: "Facturas Diarias",
 };
@@ -11,9 +11,6 @@ export const metadata = {
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
     <React.Fragment>
-      <Head>
-        <title>Facturas Diarias</title>
-      </Head>
       <Navigation />
 
       <div className="flex flex-col min-h-screen">

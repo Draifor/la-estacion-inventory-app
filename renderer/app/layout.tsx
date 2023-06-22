@@ -1,7 +1,8 @@
-import "../styles/globals.css";
-import Providers from "./providers/providers";
+import { Metadata } from "next";
+import Providers from "@/providers/providers";
+import "@/styles/globals.css";
 
-export const metadata = {
+export const metadata: Metadata = {
   title: "Sistema de Facturación",
   description: "Sistema de Facturación",
 };
@@ -13,11 +14,11 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-        <body className="min-h-screen">
-      <Providers>
-          <main className="min-h-full">{children}</main>
-      </Providers>
-        </body>
+      <body className="min-h-screen">
+        <main className="min-h-full">
+          <Providers>{children}</Providers>
+        </main>
+      </body>
     </html>
   );
 }

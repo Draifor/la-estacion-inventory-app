@@ -1,11 +1,10 @@
 "use client";
 import { useState } from "react";
-import { useRouter } from "next/navigation";
-import Input from "@/app/components/Input";
-import Button from "@/app/components/Button";
-import showAlert from "@/app/components/showAlert";
+import Input from "@/components/Input";
+import Button from "@/components/Button";
+import showAlert from "@/components/showAlert";
 import db from "@/utils/database";
-import Select from "@/app/components/Select";
+import Select from "@/components/Select";
 import bcrypt from "bcryptjs";
 import { ipcRenderer } from "electron";
 
@@ -21,7 +20,6 @@ export default function createUser() {
   const [role, setRole] = useState(roles[0]);
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const router = useRouter();
 
   const roleOptions = roles.map((role) => {
     return (
@@ -103,7 +101,7 @@ export default function createUser() {
       });
       showAlert("success", "Usuario creado exitosamente");
       setTimeout(() => {
-        ipcRenderer.send("close-modal", {reload: true});
+        ipcRenderer.send("close-modal", { reload: true });
       }, 1000);
     } catch (error) {
       showAlert("error", error.message);

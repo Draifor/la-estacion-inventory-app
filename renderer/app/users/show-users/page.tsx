@@ -1,7 +1,7 @@
 "use client";
 import { useState, useEffect } from "react";
 import db from "@/utils/database";
-import Button from "@/app/components/Button";
+import Button from "@/components/Button";
 import { ipcRenderer } from "electron";
 
 export default function UsersPage() {

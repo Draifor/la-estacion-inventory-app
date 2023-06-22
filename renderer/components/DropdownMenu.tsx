@@ -1,6 +1,6 @@
 import { useState } from "react";
-import DownArrow from "@/app/components/icons/DownArrow";
-import Button from "./Button";
+import DownArrow from "@/components/icons/DownArrow";
+import Button from "@/components/Button";
 
 type DropdownMenuProps = {
   title: string;
